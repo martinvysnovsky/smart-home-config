@@ -1,0 +1,361 @@
+esphome:
+  name: home
+  friendly_name: Home
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+  baud_rate: 0
+
+ota:
+  - platform: esphome
+    password: !secret home_ota_password
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret home_ha_api_encryption_key
+
+ethernet:
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO17_OUT
+  phy_addr: 0
+
+i2c:
+  sda: 5
+  scl: 4
+  scan: true
+  id: bus_a
+
+pcf8574:
+  - id: "pcf8574_hub_out_1" # for output channel 1-8
+    address: 0x24
+  - id: "pcf8574_hub_in_1" # for input channel 1-8
+    address: 0x22
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/hzkincony/esphome-kc868-ha
+      ref: v3.0.1
+
+uart:
+  - id: myuart1
+    tx_pin: 13
+    rx_pin: 15
+    baud_rate: 9600
+
+kc868_ha:
+
+switch:
+  - platform: gpio
+    id: light1
+    name: "Light 1"
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 0
+      mode: OUTPUT
+      inverted: true
+    on_turn_on:
+      then:
+        - switch.turn_on: switch1_led1
+    on_turn_off:
+      then:
+        - switch.turn_off: switch1_led1
+
+  - platform: gpio
+    id: light2
+    name: "Light 2"
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 1
+      mode: OUTPUT
+      inverted: true
+    on_turn_on:
+      then:
+        - switch.turn_on: switch1_led2
+    on_turn_off:
+      then:
+        - switch.turn_off: switch1_led2
+
+  - platform: gpio
+    id: light3
+    name: "Light 3"
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 2
+      mode: OUTPUT
+      inverted: true
+    on_turn_on:
+      then:
+        - switch.turn_on: switch1_led3
+    on_turn_off:
+      then:
+        - switch.turn_off: switch1_led3
+
+  - platform: gpio
+    id: light4
+    name: "Light 4"
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 3
+      mode: OUTPUT
+      inverted: true
+    on_turn_on:
+      then:
+        - switch.turn_on: switch1_led4
+    on_turn_off:
+      then:
+        - switch.turn_off: switch1_led4
+
+  - platform: gpio
+    id: light5
+    name: "Light 5"
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 4
+      mode: OUTPUT
+      inverted: true
+    on_turn_on:
+      then:
+        - switch.turn_on: switch1_led5
+    on_turn_off:
+      then:
+        - switch.turn_off: switch1_led5
+
+  - platform: gpio
+    id: light6
+    name: "Light 6"
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 5
+      mode: OUTPUT
+      inverted: true
+    on_turn_on:
+      then:
+        - switch.turn_on: switch1_led6
+    on_turn_off:
+      then:
+        - switch.turn_off: switch1_led6
+
+  - platform: gpio
+    id: light7
+    name: "Light 7"
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 6
+      mode: OUTPUT
+      inverted: true
+
+  - platform: gpio
+    id: light8
+    name: "Light 8"
+    pin:
+      pcf8574: pcf8574_hub_out_1
+      number: 7
+      mode: OUTPUT
+      inverted: true
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 1
+    id: switch1_led1
+    internal: true
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 2
+    id: switch1_led2
+    internal: true
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 3
+    id: switch1_led3
+    internal: true
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 4
+    id: switch1_led4
+    internal: true
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 5
+    id: switch1_led5
+    internal: true
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 6
+    id: switch1_led6
+    internal: true
+
+binary_sensor:
+  - platform: gpio
+    id: input1
+    name: "Input 1"
+    on_press:
+      then:
+        - switch.toggle: light1
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 0
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    id: "input2"
+    name: "Input 2"
+    on_press:
+      then:
+        - switch.toggle: light2
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 1
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    id: "input3"
+    name: "Input 3"
+    on_press:
+      then:
+        - switch.toggle: light3
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 2
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    id: "input4"
+    name: "Input 4"
+    on_press:
+      then:
+        - switch.toggle: light4
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 3
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    id: "input5"
+    name: "Input 5"
+    on_press:
+      then:
+        - switch.toggle: light5
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 4
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    id: "input6"
+    name: "Input 6"
+    on_press:
+      then:
+        - switch.toggle: light6
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 5
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    id: "input7"
+    name: "Input 7"
+    on_press:
+      then:
+        - switch.toggle: light7
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 6
+      mode: INPUT
+      inverted: true
+
+  - platform: gpio
+    id: "input8"
+    name: "Input 8"
+    on_press:
+      then:
+        - switch.toggle: light8
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 7
+      mode: INPUT
+      inverted: true
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 1
+    id: "switch1_button1"
+    name: "Switch 1 - Button 1"
+    on_press:
+      then:
+        - switch.turn_on: light1
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 2
+    id: "switch1_button2"
+    name: "Switch 1 - Button 2"
+    on_press:
+      then:
+        - switch.turn_on: light2
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 3
+    id: "switch1_button3"
+    name: "Switch 1 - Button 3"
+    on_press:
+      then:
+        - switch.turn_on: light3
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 4
+    id: "switch1_button4"
+    name: "Switch 1 - Button 4"
+    on_press:
+      then:
+        - switch.turn_on: light4
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 5
+    id: "switch1_button5"
+    name: "Switch 1 - Button 5"
+    on_press:
+      then:
+        - switch.turn_on: light5
+
+  - platform: kc868_ha
+    target_relay_controller_addr: 1
+    switch_adapter_addr: 10
+    bind_output: 6
+    id: "switch1_button6"
+    name: "Switch 1 - Button 6"
+    on_press:
+      then:
+        - switch.turn_on: light6
