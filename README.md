@@ -31,8 +31,9 @@ configuration/
 │ └── ...
 ├── www/
 │ └── ...
-└── sensors/
-  └── ...
+├── sensors/
+│ └── ...
+└── docs/
 ```
 
 - `configuration.yaml`: Main configuration file for Home Assistant.
@@ -43,6 +44,7 @@ configuration/
 - `themes/`: Custom themes for the Home Assistant frontend.
 - `www/`: Static files for the frontend.
 - `sensors/`: Custom sensor configurations.
+- `docs/`: Store file for documentation and tutorials.
 
 ## Installation
 
