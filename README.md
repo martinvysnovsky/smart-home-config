@@ -51,15 +51,24 @@ configuration/
 1. **Clone the repository**:
 
 ```bash
-git clone https://github.com/yourusername/homeassistant-config.git
-cd configuration
+git clone https://github.com/martinvysnovsky/smart-home-config.git
+cd smart-home-config
 ```
 
 2. **Copy the configuration files** to your Home Assistant configuration directory, typically located at `/config`:
 
 ```bash
-cp -r * /config
+cp -r configuration/* /config
 ```
+
+Alternatively you can create symlinks to the configuration files. This way your configuration will always be up-to-date.
+
+```bash
+cd /homeassistant
+ln -s smart-home-config/configuration/configuration.yaml configuration.yaml
+```
+
+NOTE: you need to clone the repository inside `/homeassistant` folder.
 
 3. **Install custom components** (if any) by copying them to the appropriate directory within your Home Assistant setup.
 
