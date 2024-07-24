@@ -38,11 +38,16 @@ pcf8574:
   - id: "pcf8574_hub_in_1" # for input channel 1-8
     address: 0x22
 
+# TODO: in official documentation there is wrong values. I had to clone it locally and adjust
+# external_components:
+#   - source:
+#       type: git
+#       url: https://github.com/hzkincony/esphome-kc868-ha
+#       ref: v3.0.1
 external_components:
   - source:
-      type: git
-      url: https://github.com/hzkincony/esphome-kc868-ha
-      ref: v3.0.1
+      type: local
+      path: components
 
 uart:
   - id: myuart1
@@ -308,7 +313,7 @@ binary_sensor:
     name: "Switch 1 - Button 1"
     on_press:
       then:
-        - switch.turn_on: light1
+        - switch.toggle: light1
 
   - platform: kc868_ha
     target_relay_controller_addr: 1
@@ -318,7 +323,7 @@ binary_sensor:
     name: "Switch 1 - Button 2"
     on_press:
       then:
-        - switch.turn_on: light2
+        - switch.toggle: light2
 
   - platform: kc868_ha
     target_relay_controller_addr: 1
@@ -328,7 +333,7 @@ binary_sensor:
     name: "Switch 1 - Button 3"
     on_press:
       then:
-        - switch.turn_on: light3
+        - switch.toggle: light3
 
   - platform: kc868_ha
     target_relay_controller_addr: 1
@@ -338,7 +343,7 @@ binary_sensor:
     name: "Switch 1 - Button 4"
     on_press:
       then:
-        - switch.turn_on: light4
+        - switch.toggle: light4
 
   - platform: kc868_ha
     target_relay_controller_addr: 1
@@ -348,7 +353,7 @@ binary_sensor:
     name: "Switch 1 - Button 5"
     on_press:
       then:
-        - switch.turn_on: light5
+        - switch.toggle: light5
 
   - platform: kc868_ha
     target_relay_controller_addr: 1
@@ -358,4 +363,4 @@ binary_sensor:
     name: "Switch 1 - Button 6"
     on_press:
       then:
-        - switch.turn_on: light6
+        - switch.toggle: light6
