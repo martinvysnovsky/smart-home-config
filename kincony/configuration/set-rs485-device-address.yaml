@@ -1,0 +1,104 @@
+################################################################################
+# Substitution Variables
+################################################################################
+substitutions:
+  name: home # same as regular device name. Otherwise we will have to use USB to flash. OTA will not work.
+  friendly_name: Set RS485 device address
+  current_address: "1"
+  new_address: "20"
+
+################################################################################
+# Board Configuration
+################################################################################
+esphome:
+  name: $name
+  friendly_name: $friendly_name
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+################################################################################
+# Enable logging
+################################################################################
+logger:
+  level: VERBOSE
+  baud_rate: 0
+
+################################################################################
+# Enable Home Assistant API
+################################################################################
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+################################################################################
+# OTA
+################################################################################
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+################################################################################
+# Ethernet
+################################################################################
+ethernet:
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO17_OUT
+  phy_addr: 0
+
+################################################################################
+# Status led
+################################################################################
+status_led:
+  pin:
+    number: GPIO2
+    inverted: false
+
+################################################################################
+# I2C
+################################################################################
+i2c:
+  sda: 5
+  scl: 4
+  scan: true
+  id: bus_a
+
+pcf8574:
+  - id: "pcf8574_hub_in_1" # for input channel 1-8
+    address: 0x22
+
+uart:
+  - id: myuart1
+    tx_pin: 13
+    rx_pin: 15
+    baud_rate: 9600
+
+modbus_controller:
+  - id: device
+    address: $current_address
+
+################################################################################
+# Binary sensors
+################################################################################
+binary_sensor:
+  #-------------------------------------------------------------------------------
+  # GPIO inputs
+  #-------------------------------------------------------------------------------
+  - platform: gpio
+    id: input1
+    pin:
+      pcf8574: pcf8574_hub_in_1
+      number: 0
+      mode: INPUT
+      inverted: true
+    on_press:
+      then:
+        - lambda: |-
+            esphome::modbus_controller::ModbusController *controller = id(device);
+            esphome::modbus_controller::ModbusCommandItem set_address_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 257, ${new_address});
+            controller->queue_command(set_address_command);
+            ESP_LOGI("ModbusLambda", "Device address set");
