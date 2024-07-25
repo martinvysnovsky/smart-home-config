@@ -1,24 +1,48 @@
-esphome:
+################################################################################
+# Substitution Variables
+################################################################################
+substitutions:
   name: home
   friendly_name: Home
+  modbus_controller_addr: "1"
+  modbus_switch1_address: "10"
+  sampling_time: 30s
+
+################################################################################
+# Board Configuration
+################################################################################
+esphome:
+  name: $name
+  friendly_name: $friendly_name
 
 esp32:
   board: esp32dev
   framework:
     type: arduino
 
+################################################################################
+# Enable logging
+################################################################################
 logger:
   baud_rate: 0
 
-ota:
-  - platform: esphome
-    password: !secret home_ota_password
-
+################################################################################
 # Enable Home Assistant API
+################################################################################
 api:
   encryption:
-    key: !secret home_ha_api_encryption_key
+    key: !secret api_encryption_key
 
+################################################################################
+# OTA
+################################################################################
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+################################################################################
+# Ethernet
+################################################################################
 ethernet:
   type: LAN8720
   mdc_pin: GPIO23
@@ -26,6 +50,35 @@ ethernet:
   clk_mode: GPIO17_OUT
   phy_addr: 0
 
+################################################################################
+# Web Server
+################################################################################
+web_server:
+  port: 80
+  version: 2
+  include_internal: true
+  auth:
+    username: !secret web_server_user
+    password: !secret web_server_password
+  local: true
+
+################################################################################
+# Status led
+################################################################################
+status_led:
+  pin:
+    number: GPIO2
+    inverted: false
+
+################################################################################
+# Time
+################################################################################
+time:
+  - platform: homeassistant
+
+################################################################################
+# I2C
+################################################################################
 i2c:
   sda: 5
   scl: 4
@@ -38,6 +91,9 @@ pcf8574:
   - id: "pcf8574_hub_in_1" # for input channel 1-8
     address: 0x22
 
+################################################################################
+# Modbus
+################################################################################
 # TODO: in official documentation there is wrong values. I had to clone it locally and adjust
 # external_components:
 #   - source:
@@ -57,7 +113,67 @@ uart:
 
 kc868_ha:
 
+################################################################################
+# Sensors
+################################################################################
+sensor:
+  #-------------------------------------------------------------------------------
+  # ESP Generic Sensors
+  #-------------------------------------------------------------------------------
+  - platform: uptime
+    id: ${name}_uptime
+    update_interval: $sampling_time
+    on_raw_value:
+      then:
+        - text_sensor.template.publish:
+            id: ${name}_uptime_human
+            state: !lambda |-
+              int seconds = round(id(${name}_uptime).raw_state);
+              int days = seconds / (24 * 3600);
+              seconds = seconds % (24 * 3600);
+              int hours = seconds / 3600;
+              seconds = seconds % 3600;
+              int minutes = seconds /  60;
+              seconds = seconds % 60;
+              return (
+                (days ? to_string(days) + "d " : "") +
+                (hours ? to_string(hours) + "h " : "") +
+                (minutes ? to_string(minutes) + "m " : "") +
+                (to_string(seconds) + "s")
+              ).c_str();
+
+################################################################################
+# Text Sensors
+################################################################################
+text_sensor:
+  #-------------------------------------------------------------------------------
+  # ESP32 internal sensors
+  #-------------------------------------------------------------------------------
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
+
+  #-------------------------------------------------------------------------------
+  # Custom Text sensors
+  #-------------------------------------------------------------------------------
+  - platform: template
+    name: Uptime
+    id: ${name}_uptime_human
+    icon: mdi:clock-start
+
+################################################################################
+# Switches
+################################################################################
 switch:
+  #-------------------------------------------------------------------------------
+  # ESP32 internal
+  #-------------------------------------------------------------------------------
+  - platform: restart
+    name: "Restart"
+
+  #-------------------------------------------------------------------------------
+  # GPIO outputs
+  #-------------------------------------------------------------------------------
   - platform: gpio
     id: light1
     name: "Light 1"
@@ -166,43 +282,52 @@ switch:
       mode: OUTPUT
       inverted: true
 
+  #-------------------------------------------------------------------------------
+  # Modbus outputs
+  #-------------------------------------------------------------------------------
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 1
     id: switch1_led1
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 2
     id: switch1_led2
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 3
     id: switch1_led3
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 4
     id: switch1_led4
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 5
     id: switch1_led5
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 6
     id: switch1_led6
 
+################################################################################
+# Binary sensors
+################################################################################
 binary_sensor:
+  #-------------------------------------------------------------------------------
+  # GPIO inputs
+  #-------------------------------------------------------------------------------
   - platform: gpio
     id: input1
     on_press:
@@ -291,9 +416,12 @@ binary_sensor:
       mode: INPUT
       inverted: true
 
+  #-------------------------------------------------------------------------------
+  # Modbus inputs
+  #-------------------------------------------------------------------------------
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 1
     id: "switch1_button1"
     on_press:
@@ -301,8 +429,8 @@ binary_sensor:
         - switch.toggle: light1
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 2
     id: "switch1_button2"
     on_press:
@@ -310,8 +438,8 @@ binary_sensor:
         - switch.toggle: light2
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 3
     id: "switch1_button3"
     on_press:
@@ -319,8 +447,8 @@ binary_sensor:
         - switch.toggle: light3
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 4
     id: "switch1_button4"
     on_press:
@@ -328,8 +456,8 @@ binary_sensor:
         - switch.toggle: light4
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 5
     id: "switch1_button5"
     on_press:
@@ -337,8 +465,8 @@ binary_sensor:
         - switch.toggle: light5
 
   - platform: kc868_ha
-    target_relay_controller_addr: 1
-    switch_adapter_addr: 10
+    target_relay_controller_addr: $modbus_controller_addr
+    switch_adapter_addr: $modbus_switch1_address
     bind_output: 6
     id: "switch1_button6"
     on_press:
