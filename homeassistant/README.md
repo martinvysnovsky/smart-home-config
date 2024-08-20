@@ -73,6 +73,12 @@ NOTE: you need to clone the repository inside `/homeassistant` folder.
 docker restart homeassistant  # If using Docker
 ```
 
+### Running locally
+
+```bash
+docker compose up -d
+```
+
 ## Usage
 
 - Edit `configuration.yaml` to configure integrations and services.
