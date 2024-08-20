@@ -427,14 +427,20 @@ binary_sensor:
 
   - platform: gpio
     id: "input7"
-    on_press:
-      then:
-        - switch.toggle: light7
+    name: "Presense"
     pin:
       pcf8574: pcf8574_hub_in_1
       number: 6
       mode: INPUT
       inverted: true
+    on_state:
+      then:
+        - lambda: |-
+            if (id(input7).state) {
+              id(light7).turn_on();
+            } else {
+              id(light7).turn_off();
+            }
 
   - platform: gpio
     id: "input8"
