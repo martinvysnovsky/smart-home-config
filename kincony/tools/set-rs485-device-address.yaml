@@ -99,6 +99,6 @@ binary_sensor:
       then:
         - lambda: |-
             esphome::modbus_controller::ModbusController *controller = id(device);
-            esphome::modbus_controller::ModbusCommandItem set_address_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 257, ${new_address});
+            esphome::modbus_controller::ModbusCommandItem set_address_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(controller, 10, ${new_address});
             controller->queue_command(set_address_command);
             ESP_LOGI("ModbusLambda", "Device address set");

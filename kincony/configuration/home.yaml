@@ -6,8 +6,7 @@ substitutions:
   friendly_name: Home
   modbus_controller_addr: "1"
   modbus_switch1_address: "10"
-  # TODO: add is conflicting
-  modbus_temperature_sensor_address: "1"
+  modbus_temperature_sensor_address: "20"
   sampling_time: 30s
 
 ################################################################################

@@ -3,7 +3,9 @@
 [Video](https://www.youtube.com/watch?v=-ZJnaKNHLR0)
 [Online Modbus Decoder](https://npulse.net/en/online-modbus)
 
-WARNING: address 257 is not working
+WARNING: it uses register address 10 to set device id
+
+You can use script located in `/kincony/tools/set-rs485-device-address.yaml` to set up address.
 
 ## Set address
 
