@@ -14,32 +14,42 @@
 
 ```
 configuration/
-  ├─ configuration.yaml
-  ├─ secrets.yaml
-  ├─ automations.yaml
-  ├─ scripts.yaml
-  ├─ custom_components/
-  │   └─ ...
-  ├─ themes/
-  │   └─ ...
-  ├─ www/
-  │   └─ ...
-  └─ sensors/
-      └─ ...
+  ├─ configuration.yaml    # Main HA configuration with includes
+  ├─ secrets.yaml          # Sensitive data (not in repo)
+  ├─ helpers.yaml          # Input boolean/number/text helpers
+  ├─ automations.yaml      # 12 automations in 5 categories
+  ├─ scripts.yaml          # 2 scripts (vacuum, camera control)
+  ├─ scenes.yaml           # 6 scenes (home/away, day/night)
+  ├─ sensors.yaml          # History stats sensors
+  ├─ custom_components/    # Custom integrations
+  │   ├─ dahua/
+  │   ├─ dreame_vacuum/
+  │   ├─ google_home/
+  │   ├─ smartthinq_sensors/
+  │   └─ tapo_control/
+  ├─ themes/               # UI themes
+  │   ├─ mushroom/
+  │   └─ ios-themes/
+  └─ www/                  # Static web files
 docs/
-  └─ ...
+  └─ ssh.md                # SSH access documentation
+compose.yaml               # Docker Compose configuration
 ```
 
-- `configuration/`:
-  - `configuration.yaml`: Main configuration file for Home Assistant.
-  - `secrets.yaml`: File to store sensitive information like API keys (not included in the repository).
-  - `automations.yaml`: Contains automation rules.
-  - `scripts.yaml`: Contains custom scripts.
-  - `custom_components/`: Directory for custom components.
-  - `themes/`: Custom themes for the Home Assistant frontend.
-  - `www/`: Static files for the frontend.
-  - `sensors/`: Custom sensor configurations.
-- `docs/`: Store file for documentation and tutorials for Home Assistant.
+### Configuration Files
+
+- **`configuration.yaml`**: Main configuration file that includes all other YAML files
+- **`helpers.yaml`**: Input helpers (booleans, numbers, text) defined in YAML for version control
+- **`automations.yaml`**: 12 automations organized into 5 sections:
+  - Scene Management (4 automations)
+  - Vacuum Cleaning (3 automations)
+  - Pet Care (2 automations)
+  - Day/Night Management (2 automations)
+  - Location-based Notifications (1 automation)
+- **`scripts.yaml`**: Reusable scripts for vacuum control and camera motion detection
+- **`scenes.yaml`**: 6 scenes for different home states and times of day
+- **`sensors.yaml`**: Template and history statistics sensors
+- **`secrets.yaml`**: Sensitive data like API keys (excluded from repository)
 
 ## Installation
 
@@ -73,32 +83,84 @@ NOTE: you need to clone the repository inside `/homeassistant` folder.
 docker restart homeassistant  # If using Docker
 ```
 
-### Running locally
+### Running locally with Docker Compose
 
 ```bash
 docker compose up -d
 ```
 
+The Docker Compose configuration includes:
+- **Healthcheck**: Monitors Home Assistant availability every 30s
+- **Resource limits**: 2GB memory, 2 CPU cores
+- **Log rotation**: Max 10MB per file, 3 files retained
+- **Watchtower support**: Automated container updates
+
 ## Usage
 
-- Edit `configuration.yaml` to configure integrations and services.
-- Update `automations.yaml` to add or modify automation rules.
-- Customize the frontend using files in the `themes/` and `www/` directories.
+- Edit `configuration.yaml` to configure integrations and services
+- Update `automations.yaml` to add or modify automation rules
+- Modify `helpers.yaml` for input booleans, numbers, and text helpers
+- Create new scenes in `scenes.yaml` for different home states
+- Customize the frontend using files in the `themes/` and `www/` directories
 
 ## Automation Examples
 
-Here are a few examples of automation rules included in this repository:
+This repository includes 12 automations organized into 5 categories:
 
-### Turn on lights at sunset
+### Scene Management - Presence-based automation
+
+Automatically switches between home and away modes based on zone presence:
 
 ```yaml
-- alias: "Turn on living room lights at sunset"
-  trigger:
-    platform: sun
-    event: sunset
-  action:
-    service: light.turn_on
-    entity_id: light.living_room
+- alias: Enable Away scene when everybody leave home
+  description: Activates away scene (privacy off, motion detection on) when everyone leaves
+  triggers:
+  - trigger: state
+    entity_id: zone.home
+    to: '0'
+  actions:
+  - action: scene.turn_on
+    target:
+      entity_id: scene.away
+```
+
+### Vacuum Cleaning - Automated scheduling
+
+Starts Xiaomi vacuum when everyone leaves during daytime hours:
+
+```yaml
+- alias: Start Xiaomi when leaving home
+  description: Starts Xiaomi vacuum in sweeping mode (08:00-22:00)
+  triggers:
+  - entity_id:
+    - person.martin_vysnovsky
+    - person.lidia_silanteva
+    zone: zone.home
+    event: leave
+  conditions:
+  - condition: time
+    after: 08:00:00
+    before: '22:00:00'
+  actions:
+  - action: vacuum.start
+    target:
+      entity_id: vacuum.xiaomi_robot_vacuum_x20
+```
+
+### Day/Night Management - Sunrise and sunset automation
+
+Automatically opens/closes curtains based on sun position:
+
+```yaml
+- alias: Activate day mode
+  description: Opens living room curtains at sunrise
+  triggers:
+  - trigger: sun
+    event: sunrise
+  actions:
+  - action: scene.turn_on
+    target:
+      entity_id: scene.day_mode
 ```
 
 ## Customization
