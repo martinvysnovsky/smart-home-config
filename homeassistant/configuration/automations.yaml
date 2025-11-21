@@ -189,7 +189,11 @@
   - action: notify.mobile_app_pixel_8_pro
     metadata: {}
     data:
-      message: LItter-robot waste above 70%
+      message: Litter-robot waste above 70%
+  - action: notify.mobile_app_pixel_9
+    metadata: {}
+    data:
+      message: Litter-robot waste above 70%
   mode: single
 
 # ================================================================================
@@ -253,7 +257,7 @@
       - condition: trigger
         id: martin
       sequence:
-      - service: notify.mobile_app_pixel_3_xl
+      - service: notify.mobile_app_pixel_8_pro
         data:
           message: Open your shopping list?
           data:
@@ -264,7 +268,7 @@
       - condition: trigger
         id: lidia
       sequence:
-      - service: notify.mobile_app_pixel_6a
+      - service: notify.mobile_app_pixel_9
         data:
           message: Open your shopping list?
           data:
