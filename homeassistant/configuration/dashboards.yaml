@@ -1,0 +1,39 @@
+# ================================================================================
+# Lovelace Dashboards (YAML Mode)
+# ================================================================================
+
+mode: yaml
+resources:
+  - url: /hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375421
+    type: module
+  - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620121
+    type: module
+  - url: /hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=331701152212
+    type: module
+  - url: /hacsfiles/vacuum-card/vacuum-card.js?hacstag=2612912952101
+    type: module
+  - url: /hacsfiles/Bubble-Card/bubble-card.js?hacstag=680112919304
+    type: module
+dashboards:
+  lovelace-overview:
+    mode: yaml
+    filename: dashboards/overview.yaml
+    title: Overview
+    icon: mdi:view-dashboard
+    show_in_sidebar: true
+  lovelace-map:
+    mode: yaml
+    filename: dashboards/map.yaml
+    title: Map
+    icon: mdi:map
+    show_in_sidebar: true
+  lovelace-bubble:
+    mode: yaml
+    filename: dashboards/bubble.yaml
+    title: Bubble
+    show_in_sidebar: true
+  lovelace-home:
+    mode: yaml
+    filename: dashboards/home.yaml
+    title: Home
+    show_in_sidebar: true

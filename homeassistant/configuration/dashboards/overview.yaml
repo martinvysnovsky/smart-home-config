@@ -1,0 +1,369 @@
+# ================================================================================
+# Main Home Dashboard
+# ================================================================================
+# Primary dashboard with person tracking, weather, batteries, home controls,
+# motion detection, and climate monitoring
+
+title: Home
+views:
+  - title: HOME
+    icon: ""
+    theme: Mushroom
+    type: sections
+    max_columns: 4
+    badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        color: ""
+        entity: sensor.living_room_temperature
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.living_room_temperature_humidity
+        color: ""
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: scene.day_mode
+        color: amber
+        tap_action:
+          action: perform-action
+          perform_action: scene.turn_on
+          target:
+            entity_id: scene.night_mode
+        visibility:
+          - condition: state
+            entity: input_boolean.day_night
+            state: "on"
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: scene.night_mode
+        color: indigo
+        tap_action:
+          action: perform-action
+          perform_action: scene.turn_on
+          target:
+            entity_id: scene.day_mode
+          data: {}
+        visibility:
+          - condition: state
+            entity: input_boolean.day_night
+            state: "off"
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.litter_robot_4_waste_drawer
+        color: red
+        icon: mdi:cat
+        show_entity_picture: false
+        visibility:
+          - condition: numeric_state
+            entity: sensor.litter_robot_4_waste_drawer
+            above: 70
+    sections:
+      # ============================================================================
+      # General Section
+      # ============================================================================
+      - type: grid
+        cards:
+          - type: heading
+            heading: General
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-person-card
+                entity: person.martin_vysnovsky
+                icon_type: entity-picture
+                secondary_info: last-updated
+              - type: custom:mushroom-person-card
+                entity: person.lidia_silanteva
+                fill_container: false
+                icon_type: entity-picture
+                secondary_info: last-updated
+            columns: 2
+          - show_current: true
+            show_forecast: true
+            type: weather-forecast
+            entity: weather.forecast_home
+            forecast_type: hourly
+          - type: entities
+            entities:
+              - entity: sensor.pixel_8_pro_battery_level
+                icon: mdi:cellphone
+                secondary_info: last-updated
+                name: Pixel 8 Pro
+              - entity: sensor.martins_ipad_battery_level
+                icon: mdi:tablet
+                name: iPad
+                secondary_info: last-updated
+              - entity: sensor.pixel_9a_battery_level
+                icon: mdi:cellphone
+                name: Lidia's phone
+              - entity: sensor.roomba_battery
+                icon: mdi:robot-vacuum
+                secondary_info: last-updated
+              - entity: sensor.xiaomi_robot_vacuum_x20_battery_level
+                icon: mdi:robot-vacuum
+              - entity: sensor.plant_sensor_d766_battery
+              - entity: sensor.living_room_temperature_battery
+                icon: mdi:thermometer
+              - entity: sensor.bedroom_temperature_battery
+                icon: mdi:thermometer
+              - entity: sensor.bathroom_temperature_battery
+                icon: mdi:thermometer
+              - entity: sensor.living_room_curtain_left_battery
+                icon: mdi:curtains
+              - entity: sensor.living_room_curtain_right_battery
+                icon: mdi:curtains
+            title: Battery levels
+            show_header_toggle: true
+            state_color: true
+
+      # ============================================================================
+      # Home Controls Section
+      # ============================================================================
+      - type: grid
+        cards:
+          - type: heading
+            heading: Home
+          - type: tile
+            entity: cover.living_room_curtain_left
+          - type: tile
+            entity: cover.living_room_curtain_right
+          - type: media-control
+            entity: media_player.living_room_speaker
+            visibility:
+              - condition: state
+                entity: media_player.living_room_speaker
+                state_not: "off"
+          - type: custom:vacuum-card
+            entity: vacuum.xiaomi_robot_vacuum_x20
+            map: camera.xiaomi_robot_vacuum_x20_map
+          - type: custom:vacuum-card
+            entity: vacuum.roomba
+            show_name: false
+
+      # ============================================================================
+      # Motion Detection & Scenes Section
+      # ============================================================================
+      - type: grid
+        cards:
+          - square: false
+            type: grid
+            cards:
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: select.living_room_motion_detection
+                    fill_container: false
+                    primary_info: name
+                    name: Living room
+                    secondary_info: last-changed
+                    layout: vertical
+                    icon_type: icon
+                    icon_color: cyan
+                  - type: custom:mushroom-entity-card
+                    entity: select.kitchen_motion_detection
+                    name: Kitchen
+                    layout: vertical
+                    secondary_info: last-changed
+                    icon_color: cyan
+                  - type: custom:mushroom-entity-card
+                    entity: select.bedroom_motion_detection
+                    name: Bedroom
+                    layout: vertical
+                    secondary_info: last-changed
+                    icon_color: cyan
+                  - type: custom:mushroom-entity-card
+                    entity: select.hall_motion_detection
+                    name: Hall
+                    layout: vertical
+                    secondary_info: last-changed
+                    icon_color: cyan
+                title: Home motion detection
+                columns: 4
+              - square: false
+                type: grid
+                cards:
+                  - show_name: false
+                    show_icon: true
+                    type: button
+                    tap_action:
+                      action: call-service
+                      service: scene.turn_on
+                      target:
+                        entity_id: scene.home
+                      data: {}
+                    entity: binary_sensor.someone_is_home
+                    icon_height: 32px
+                    show_state: false
+                  - show_name: false
+                    show_icon: true
+                    type: button
+                    tap_action:
+                      action: perform-action
+                      perform_action: scene.turn_on
+                      target:
+                        entity_id: scene.away
+                    entity: scene.away
+                    icon_height: 32px
+                columns: 2
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: switch.camera_front_disarming
+                    secondary_info: last-changed
+                    layout: vertical
+                    icon_color: cyan
+                    name: Front
+                  - type: custom:mushroom-entity-card
+                    entity: switch.camera_parking_disarming
+                    secondary_info: last-changed
+                    layout: vertical
+                    icon_color: cyan
+                    name: Parking
+                  - type: custom:mushroom-entity-card
+                    entity: switch.camera_terrace_disarming
+                    layout: vertical
+                    secondary_info: last-changed
+                    icon_color: cyan
+                    name: Terrace
+                title: Kvetoslavov motion detection
+              - square: false
+                type: grid
+                cards:
+                  - show_name: false
+                    show_icon: true
+                    type: button
+                    tap_action:
+                      action: call-service
+                      service: scene.turn_on
+                      target:
+                        entity_id: scene.in_kvetoslavov
+                    entity: binary_sensor.someone_in_kvetoslavov
+                    show_state: false
+                    icon_height: 32px
+                    icon: mdi:home
+                  - show_name: false
+                    show_icon: true
+                    type: button
+                    tap_action:
+                      action: toggle
+                    entity: scene.away_from_kvetoslavov
+                    icon_height: 32px
+                columns: 2
+            columns: 1
+          - type: custom:apexcharts-card
+            graph_span: 30d
+            span:
+              end: day
+            show:
+              last_updated: true
+            header:
+              show: true
+              title: Kvetoslavov occupancy
+              show_states: true
+              colorize_states: true
+            yaxis:
+              - min: 0
+                max: ~6
+                decimals: 0
+            series:
+              - entity: sensor.kvetoslavov_occupied
+                type: column
+                name: Duration
+                show:
+                  as_duration: hour
+                group_by:
+                  func: last
+                  duration: 1d
+
+      # ============================================================================
+      # Temperature and Humidity Section
+      # ============================================================================
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Temperature and humidity
+          - type: gauge
+            entity: sensor.living_room_temperature
+            max: 33
+            severity:
+              green: 23
+              yellow: 25
+              red: 28
+            min: 18
+            grid_options:
+              columns: 6
+              rows: 3
+          - type: gauge
+            entity: sensor.living_room_temperature_humidity
+            severity:
+              green: 50
+              yellow: 60
+              red: 70
+            needle: false
+            grid_options:
+              columns: 6
+              rows: 3
+          - type: gauge
+            entity: sensor.bedroom_temperature
+            max: 33
+            severity:
+              green: 23
+              yellow: 25
+              red: 28
+            min: 18
+            grid_options:
+              columns: 6
+              rows: 3
+          - type: gauge
+            entity: sensor.bedroom_temperature_humidity
+            severity:
+              green: 50
+              yellow: 60
+              red: 70
+            needle: false
+            grid_options:
+              columns: 6
+              rows: 3
+          - type: gauge
+            entity: sensor.bathroom_temperature
+            max: 33
+            severity:
+              green: 23
+              yellow: 25
+              red: 28
+            min: 18
+            grid_options:
+              columns: 6
+              rows: 3
+          - type: gauge
+            entity: sensor.bathroom_temperature_humidity
+            severity:
+              green: 50
+              yellow: 60
+              red: 70
+            needle: false
+            grid_options:
+              columns: 6
+              rows: 3
+          - type: custom:mushroom-climate-card
+            entity: climate.air_conditioner_2
+            fill_container: false
+            collapsible_controls: true
+            hvac_modes: []
+            show_temperature_control: true
+            layout: horizontal
+            tap_action:
+              action: more-info

@@ -1,0 +1,7 @@
+# ================================================================================
+# Map Dashboard
+# ================================================================================
+# Dashboard using the built-in map strategy for location tracking
+
+strategy:
+  type: map
