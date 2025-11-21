@@ -1,0 +1,31 @@
+toggle_motion_detection:
+  alias: Toggle motion detection
+  sequence:
+  - service: "{% if is_state('binary_sensor.motion_detection', 'on') %}\n  camera.disable_motion_detection\n{%
+      else %}\n  camera.enable_motion_detection\n{% endif %}\n"
+    data: {}
+    target:
+      device_id:
+      - 087e43f97f1cc7b69dc06104ab4beb5b
+      - d9c464fb8692b7ab55abd2e4e81a4d04
+      - 72b2d70aaf9b611de36ebf3485d75a7f
+      - 039cc50a268cab413fbceea9757ca20f
+  mode: single
+  icon: mdi:motion-sensor
+clean_bathroom:
+  alias: Clean bathroom
+  sequence:
+  - action: dreame_vacuum.select_select_first
+    metadata: {}
+    data: {}
+    target:
+      entity_id: select.xiaomi_robot_vacuum_x20_cleaning_mode
+  - action: dreame_vacuum.vacuum_clean_segment
+    metadata: {}
+    data:
+      segments: 4
+      water_volume: 1
+    target:
+      entity_id: vacuum.xiaomi_robot_vacuum_x20
+  description: ''
+  icon: mdi:robot-vacuum

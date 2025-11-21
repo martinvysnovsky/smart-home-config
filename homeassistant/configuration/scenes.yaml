@@ -1,0 +1,256 @@
+- id: '1696262559979'
+  name: Home
+  entities:
+    switch.hall_privacy:
+      icon: mdi:eye-off-outline
+      friendly_name: Hall Privacy
+      state: 'on'
+    switch.bedroom_privacy:
+      icon: mdi:eye-off-outline
+      friendly_name: Bedroom Privacy
+      state: 'on'
+    switch.kitchen_privacy:
+      icon: mdi:eye-off-outline
+      friendly_name: Kitchen Privacy
+      state: 'on'
+    switch.living_room_privacy:
+      icon: mdi:eye-off-outline
+      friendly_name: Living room Privacy
+      state: 'on'
+    select.hall_motion_detection:
+      options:
+      - high
+      - normal
+      - low
+      - 'off'
+      device_class: motion_detection
+      icon: mdi:motion-sensor
+      friendly_name: Hall Motion Detection
+      state: 'off'
+    select.bedroom_motion_detection:
+      options:
+      - high
+      - normal
+      - low
+      - 'off'
+      device_class: motion_detection
+      icon: mdi:motion-sensor
+      friendly_name: Bedroom Motion Detection
+      state: 'off'
+    select.kitchen_motion_detection:
+      options:
+      - high
+      - normal
+      - low
+      - 'off'
+      device_class: motion_detection
+      icon: mdi:motion-sensor
+      friendly_name: Kitchen Motion Detection
+      state: 'off'
+    select.living_room_motion_detection:
+      options:
+      - high
+      - normal
+      - low
+      - 'off'
+      device_class: motion_detection
+      icon: mdi:motion-sensor
+      friendly_name: Living room Motion Detection
+      state: 'off'
+  icon: mdi:home
+  metadata:
+    switch.hall_privacy:
+      entity_only: true
+    switch.bedroom_privacy:
+      entity_only: true
+    switch.kitchen_privacy:
+      entity_only: true
+    switch.living_room_privacy:
+      entity_only: true
+    select.hall_motion_detection:
+      entity_only: true
+    select.bedroom_motion_detection:
+      entity_only: true
+    select.kitchen_motion_detection:
+      entity_only: true
+    select.living_room_motion_detection:
+      entity_only: true
+- id: '1696262745121'
+  name: Away
+  entities:
+    switch.hall_privacy:
+      icon: mdi:eye-outline
+      friendly_name: Hall Privacy
+      state: 'off'
+    switch.bedroom_privacy:
+      icon: mdi:eye-off-outline
+      friendly_name: Bedroom Privacy
+      state: 'off'
+    switch.kitchen_privacy:
+      icon: mdi:eye-off-outline
+      friendly_name: Kitchen Privacy
+      state: 'off'
+    switch.living_room_privacy:
+      icon: mdi:eye-outline
+      friendly_name: Living room Privacy
+      state: 'off'
+    select.hall_motion_detection:
+      options:
+      - high
+      - normal
+      - low
+      - 'off'
+      device_class: motion_detection
+      icon: mdi:motion-sensor
+      friendly_name: Hall Motion Detection
+      state: normal
+    select.bedroom_motion_detection:
+      options:
+      - high
+      - normal
+      - low
+      - 'off'
+      device_class: motion_detection
+      icon: mdi:motion-sensor
+      friendly_name: Bedroom Motion Detection
+      state: normal
+    select.kitchen_motion_detection:
+      options:
+      - high
+      - normal
+      - low
+      - 'off'
+      device_class: motion_detection
+      icon: mdi:motion-sensor
+      friendly_name: Kitchen Motion Detection
+      state: normal
+    select.living_room_motion_detection:
+      options:
+      - high
+      - normal
+      - low
+      - 'off'
+      device_class: motion_detection
+      icon: mdi:motion-sensor
+      friendly_name: Living room Motion Detection
+      state: normal
+  icon: mdi:home-off-outline
+  metadata:
+    switch.hall_privacy:
+      entity_only: true
+    switch.bedroom_privacy:
+      entity_only: true
+    switch.kitchen_privacy:
+      entity_only: true
+    switch.living_room_privacy:
+      entity_only: true
+    select.hall_motion_detection:
+      entity_only: true
+    select.bedroom_motion_detection:
+      entity_only: true
+    select.kitchen_motion_detection:
+      entity_only: true
+    select.living_room_motion_detection:
+      entity_only: true
+- id: '1696358047258'
+  name: In Kvetoslavov
+  entities:
+    switch.nvr_disarming:
+      icon: mdi:alarm-check
+      friendly_name: NVR Disarming
+      id: None
+      integration: dahua
+      state: 'on'
+    switch.nvr_event_notifications:
+      icon: mdi:bell-ring
+      friendly_name: NVR Event Notifications
+      id: None
+      integration: dahua
+      state: 'off'
+  icon: mdi:home
+  metadata:
+    switch.nvr_disarming:
+      entity_only: true
+    switch.nvr_event_notifications:
+      entity_only: true
+- id: '1696358094032'
+  name: Away from Kvetoslavov
+  entities:
+    switch.nvr_disarming:
+      icon: mdi:alarm-check
+      friendly_name: NVR Disarming
+      id: None
+      integration: dahua
+      state: 'off'
+    switch.nvr_event_notifications:
+      icon: mdi:bell-ring
+      friendly_name: NVR Event Notifications
+      id: None
+      integration: dahua
+      state: 'on'
+  icon: mdi:home-off-outline
+  metadata:
+    switch.nvr_disarming:
+      entity_only: true
+    switch.nvr_event_notifications:
+      entity_only: true
+- id: '1736273742559'
+  name: Night mode
+  entities:
+    input_boolean.day_night:
+      editable: true
+      icon: mdi:theme-light-dark
+      friendly_name: Day/night
+      state: 'off'
+    cover.living_room_curtain_left:
+      current_position: 1
+      last_run_success: true
+      device_class: curtain
+      friendly_name: Living room curtain left
+      supported_features: 15
+      state: closed
+    cover.living_room_curtain_right:
+      current_position: 0
+      last_run_success: true
+      device_class: curtain
+      friendly_name: Living room curtain right
+      supported_features: 15
+      state: closed
+  icon: mdi:weather-night
+  metadata:
+    input_boolean.day_night:
+      entity_only: true
+    cover.living_room_curtain_left:
+      entity_only: true
+    cover.living_room_curtain_right:
+      entity_only: true
+- id: '1736273889655'
+  name: Day mode
+  entities:
+    input_boolean.day_night:
+      editable: true
+      icon: mdi:theme-light-dark
+      friendly_name: Day/night
+      state: 'on'
+    cover.living_room_curtain_left:
+      current_position: 100
+      last_run_success: true
+      device_class: curtain
+      friendly_name: Living room curtain left
+      supported_features: 15
+      state: open
+    cover.living_room_curtain_right:
+      current_position: 100
+      last_run_success: true
+      device_class: curtain
+      friendly_name: Living room curtain right
+      supported_features: 15
+      state: open
+  icon: mdi:weather-sunny
+  metadata:
+    input_boolean.day_night:
+      entity_only: true
+    cover.living_room_curtain_left:
+      entity_only: true
+    cover.living_room_curtain_right:
+      entity_only: true
