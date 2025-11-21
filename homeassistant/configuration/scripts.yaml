@@ -1,19 +1,24 @@
 toggle_motion_detection:
   alias: Toggle motion detection
+  description: Toggles motion detection for all cameras based on binary sensor state
   sequence:
-  - service: "{% if is_state('binary_sensor.motion_detection', 'on') %}\n  camera.disable_motion_detection\n{%
-      else %}\n  camera.enable_motion_detection\n{% endif %}\n"
-    data: {}
+  - service: "{% if is_state('binary_sensor.motion_detection', 'on') %}\n  select.select_option\n{%
+      else %}\n  select.select_option\n{% endif %}\n"
     target:
-      device_id:
-      - 087e43f97f1cc7b69dc06104ab4beb5b
-      - d9c464fb8692b7ab55abd2e4e81a4d04
-      - 72b2d70aaf9b611de36ebf3485d75a7f
-      - 039cc50a268cab413fbceea9757ca20f
+      entity_id:
+      - select.hall_motion_detection
+      - select.bedroom_motion_detection
+      - select.kitchen_motion_detection
+      - select.living_room_motion_detection
+    data:
+      option: "{% if is_state('binary_sensor.motion_detection', 'on') %}\n  off\n{%
+        else %}\n  normal\n{% endif %}\n"
   mode: single
   icon: mdi:motion-sensor
 clean_bathroom:
   alias: Clean bathroom
+  description: Cleans bathroom (segment 4) with Xiaomi vacuum in sweeping mode with low water volume
+  icon: mdi:robot-vacuum
   sequence:
   - action: dreame_vacuum.select_select_first
     metadata: {}
@@ -27,5 +32,3 @@ clean_bathroom:
       water_volume: 1
     target:
       entity_id: vacuum.xiaomi_robot_vacuum_x20
-  description: ''
-  icon: mdi:robot-vacuum
