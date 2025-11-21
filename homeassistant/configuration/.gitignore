@@ -6,6 +6,7 @@
 !.gitignore
 !*.md
 !dashboards
+!themes
 
 # Ignore folders.
 .storage
