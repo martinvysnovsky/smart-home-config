@@ -1,6 +1,10 @@
+# ================================================================================
+# Scene Management - Presence-based automation for home and away modes
+# ================================================================================
+
 - id: '1696262663910'
   alias: Enable Home scene when someone enters home
-  description: ''
+  description: Activates home scene (privacy on, motion detection off) when anyone arrives at the main home
   triggers:
   - trigger: state
     entity_id:
@@ -14,9 +18,10 @@
     action: scene.turn_on
     data: {}
   mode: single
+
 - id: '1696262790329'
   alias: Enable Away scene when everybody leave home
-  description: ''
+  description: Activates away scene (privacy off, motion detection on) when everyone leaves the main home
   triggers:
   - trigger: state
     entity_id:
@@ -30,9 +35,10 @@
     action: scene.turn_on
     data: {}
   mode: single
+
 - id: '1696358130652'
   alias: Enable Away from Kvetoslavov scene when everybody leaves Kvetoslavov
-  description: ''
+  description: Activates away scene (NVR disarming off, event notifications on) when everyone leaves Kvetoslavov
   triggers:
   - trigger: state
     entity_id:
@@ -47,9 +53,10 @@
     action: scene.turn_on
     data: {}
   mode: single
+
 - id: '1696358193297'
   alias: Enable In Kvetoslavov scene when someone enters Kvetoslavov
-  description: ''
+  description: Activates home scene (NVR disarming on, event notifications off) when anyone arrives at Kvetoslavov
   triggers:
   - trigger: state
     entity_id:
@@ -64,9 +71,179 @@
     action: scene.turn_on
     data: {}
   mode: single
+
+# ================================================================================
+# Vacuum Cleaning - Automated vacuum scheduling based on presence
+# ================================================================================
+
+- id: '1733918666189'
+  alias: Start Xiaomi when leaving home
+  description: Starts Xiaomi vacuum in sweeping mode when everyone leaves home during daytime (08:00-22:00)
+  triggers:
+  - entity_id:
+    - person.martin_vysnovsky
+    - person.lidia_silanteva
+    zone: zone.home
+    event: leave
+    trigger: zone
+  conditions:
+  - condition: state
+    entity_id: zone.home
+    state: '0'
+  - condition: time
+    after: 08:00:00
+    before: '22:00:00'
+  actions:
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.cleaup_started_by_automation
+  - device_id: de48f304306377ea0a4f3408904831e5
+    domain: select
+    entity_id: d2c7beaa9daa56c07d5106bb77dbad0c
+    type: select_option
+    option: sweeping
+  - action: vacuum.start
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - vacuum.xiaomi_robot_vacuum_x20
+  mode: single
+
+- id: '1733918504232'
+  alias: Dock Xiaomi when entering home
+  description: Returns Xiaomi vacuum to dock when someone arrives home if it was started by automation
+  triggers:
+  - trigger: state
+    entity_id:
+    - zone.home
+    from: '0'
+    to:
+  conditions:
+  - condition: device
+    device_id: de48f304306377ea0a4f3408904831e5
+    domain: vacuum
+    entity_id: 03c88b3ad611781dbe095171f4cb60c2
+    type: is_cleaning
+  - condition: state
+    entity_id: input_boolean.cleaup_started_by_automation
+    state: 'on'
+  actions:
+  - device_id: de48f304306377ea0a4f3408904831e5
+    domain: vacuum
+    entity_id: 03c88b3ad611781dbe095171f4cb60c2
+    type: dock
+  mode: single
+
+- id: '1736416573587'
+  alias: Reset flag Cleanup started by automation
+  description: Resets the automation flag when Xiaomi vacuum returns to dock
+  triggers:
+  - device_id: de48f304306377ea0a4f3408904831e5
+    domain: vacuum
+    entity_id: 03c88b3ad611781dbe095171f4cb60c2
+    type: docked
+    trigger: device
+  conditions: []
+  actions:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.cleaup_started_by_automation
+  mode: single
+
+# ================================================================================
+# Pet Care - Litter robot and bathroom cleaning automation
+# ================================================================================
+
+- id: '1733920534581'
+  alias: Clean bathroom after Litter Robot run
+  description: Triggers bathroom cleaning with Xiaomi vacuum after Litter Robot finishes cleaning cycle (08:00-21:30)
+  triggers:
+  - device_id: 098da50ae550fbd499eb2b7769a0ad27
+    domain: vacuum
+    entity_id: a9906afc46f7b32cfcbfad6753c2b367
+    type: cleaning
+    trigger: device
+  conditions:
+  - condition: time
+    after: 08:00:00
+    before: '21:30:00'
+  - condition: not
+    conditions:
+    - condition: device
+      device_id: de48f304306377ea0a4f3408904831e5
+      domain: vacuum
+      entity_id: 03c88b3ad611781dbe095171f4cb60c2
+      type: is_cleaning
+  actions:
+  - action: script.clean_bathroom
+    metadata: {}
+    data: {}
+  mode: single
+
+- id: '1736690440951'
+  alias: Litter-robot waste full
+  description: Sends mobile notification when Litter Robot waste drawer reaches 70% capacity
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.litter_robot_4_waste_drawer
+    above: 70
+  conditions: []
+  actions:
+  - action: notify.mobile_app_pixel_8_pro
+    metadata: {}
+    data:
+      message: LItter-robot waste above 70%
+  mode: single
+
+# ================================================================================
+# Day/Night Management - Sunrise and sunset automation for curtains
+# ================================================================================
+
+- id: '1736274045296'
+  alias: Activate day mode
+  description: Opens living room curtains and sets day mode flag at sunrise
+  triggers:
+  - trigger: sun
+    event: sunrise
+    offset: 0
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.day_mode
+  mode: single
+
+- id: '1736274083799'
+  alias: Activate night mode
+  description: Closes living room curtains and sets night mode flag at sunset
+  triggers:
+  - trigger: sun
+    event: sunset
+    offset: 0
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.night_mode
+  mode: single
+
+# ================================================================================
+# Location-based Notifications - Context-aware mobile alerts
+# ================================================================================
+
 - id: '1696626728530'
   alias: Open shopping list when entering a shop
-  description: ''
+  description: Sends notification with shopping list link when either person enters Lidl
   trigger:
   - platform: geo_location
     source: person.martin_vysnovsky
@@ -103,150 +280,4 @@
             clickAction: /lovelace/shopping-list
             url: /lovelace/shopping-list
           title: Shopping list
-  mode: single
-- id: '1733918504232'
-  alias: Dock Xiaomi when entering home
-  description: ''
-  triggers:
-  - trigger: state
-    entity_id:
-    - zone.home
-    from: '0'
-    to:
-  conditions:
-  - condition: device
-    device_id: de48f304306377ea0a4f3408904831e5
-    domain: vacuum
-    entity_id: 03c88b3ad611781dbe095171f4cb60c2
-    type: is_cleaning
-  - condition: state
-    entity_id: input_boolean.cleaup_started_by_automation
-    state: 'on'
-  actions:
-  - device_id: de48f304306377ea0a4f3408904831e5
-    domain: vacuum
-    entity_id: 03c88b3ad611781dbe095171f4cb60c2
-    type: dock
-  mode: single
-- id: '1733918666189'
-  alias: Start Xiaomi when leaving home
-  description: ''
-  triggers:
-  - entity_id:
-    - person.martin_vysnovsky
-    - person.lidia_silanteva
-    zone: zone.home
-    event: leave
-    trigger: zone
-  conditions:
-  - condition: state
-    entity_id: zone.home
-    state: '0'
-  - condition: time
-    after: 08:00:00
-    before: '22:00:00'
-  actions:
-  - action: input_boolean.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: input_boolean.cleaup_started_by_automation
-  - device_id: de48f304306377ea0a4f3408904831e5
-    domain: select
-    entity_id: d2c7beaa9daa56c07d5106bb77dbad0c
-    type: select_option
-    option: sweeping
-  - action: vacuum.start
-    metadata: {}
-    data: {}
-    target:
-      entity_id:
-      - vacuum.xiaomi_robot_vacuum_x20
-  mode: single
-- id: '1733920534581'
-  alias: Clean bathroom after Litter Robot run
-  description: ''
-  triggers:
-  - device_id: 098da50ae550fbd499eb2b7769a0ad27
-    domain: vacuum
-    entity_id: a9906afc46f7b32cfcbfad6753c2b367
-    type: cleaning
-    trigger: device
-  conditions:
-  - condition: time
-    after: 08:00:00
-    before: '21:30:00'
-  - condition: not
-    conditions:
-    - condition: device
-      device_id: de48f304306377ea0a4f3408904831e5
-      domain: vacuum
-      entity_id: 03c88b3ad611781dbe095171f4cb60c2
-      type: is_cleaning
-  actions:
-  - action: script.clean_bathroom
-    metadata: {}
-    data: {}
-  mode: single
-- id: '1736274045296'
-  alias: Activate day mode
-  description: ''
-  triggers:
-  - trigger: sun
-    event: sunrise
-    offset: 0
-  conditions: []
-  actions:
-  - action: scene.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: scene.day_mode
-  mode: single
-- id: '1736274083799'
-  alias: Activate night mode
-  description: ''
-  triggers:
-  - trigger: sun
-    event: sunset
-    offset: 0
-  conditions: []
-  actions:
-  - action: scene.turn_on
-    metadata: {}
-    data: {}
-    target:
-      entity_id: scene.night_mode
-  mode: single
-- id: '1736416573587'
-  alias: Reset flag Cleanup started by automation
-  description: ''
-  triggers:
-  - device_id: de48f304306377ea0a4f3408904831e5
-    domain: vacuum
-    entity_id: 03c88b3ad611781dbe095171f4cb60c2
-    type: docked
-    trigger: device
-  conditions: []
-  actions:
-  - action: input_boolean.turn_off
-    metadata: {}
-    data: {}
-    target:
-      entity_id: input_boolean.cleaup_started_by_automation
-  mode: single
-- id: '1736690440951'
-  alias: Litter-robot waste full
-  description: ''
-  triggers:
-  - trigger: numeric_state
-    entity_id:
-    - sensor.litter_robot_4_waste_drawer
-    above: 70
-  conditions: []
-  actions:
-  - action: notify.mobile_app_pixel_8_pro
-    metadata: {}
-    data:
-      message: LItter-robot waste above 70%
   mode: single
