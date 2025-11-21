@@ -295,69 +295,153 @@ views:
           - type: heading
             heading_style: title
             heading: Temperature and humidity
-          - type: gauge
+          # Living room temperature
+          - &temperature_card_base
+            type: custom:bubble-card
+            card_type: button
+            button_type: state
+            show_state: true
+            show_last_changed: false
+            card_layout: large
+            scrolling_effect: false
+            show_icon: true
             entity: sensor.living_room_temperature
-            max: 33
-            severity:
-              green: 23
-              yellow: 25
-              red: 28
-            min: 18
-            grid_options:
-              columns: 6
-              rows: 3
-          - type: gauge
-            entity: sensor.living_room_temperature_humidity
-            severity:
-              green: 50
-              yellow: 60
-              red: 70
-            needle: false
-            grid_options:
-              columns: 6
-              rows: 3
-          - type: gauge
+            name: Living room
+            styles: |
+              .bubble-button-card-container {
+                position: relative !important;
+                background: transparent !important;
+              }
+              .bubble-button-card-container::before {
+                content: '' !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                z-index: 0 !important;
+                border-radius: inherit !important;
+                background: linear-gradient(90deg,
+                  #2196F3 0%,
+                  #4CAF50 33.33%,
+                  #FFC107 66.67%,
+                  #F44336 100%) !important;
+                -webkit-mask-image: linear-gradient(90deg,
+                  black 0%,
+                  black calc((${hass.states['sensor.living_room_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) calc((${hass.states['sensor.living_room_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) 100%) !important;
+                mask-image: linear-gradient(90deg,
+                  black 0%,
+                  black calc((${hass.states['sensor.living_room_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) calc((${hass.states['sensor.living_room_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) 100%) !important;
+              }
+              .bubble-button-card-container > * {
+                position: relative !important;
+                z-index: 1 !important;
+              }
+              .bubble-icon-container {
+                background: rgba(100, 130, 100, 0.4) !important;
+              }
+            sub_button:
+              - &humidity_button_base
+                show_state: true
+                show_name: true
+                name: Humidity
+                icon: mdi:water-percent
+                show_icon: true
+                entity: sensor.living_room_temperature_humidity
+
+          # Bedroom temperature
+          - <<: *temperature_card_base
             entity: sensor.bedroom_temperature
-            max: 33
-            severity:
-              green: 23
-              yellow: 25
-              red: 28
-            min: 18
-            grid_options:
-              columns: 6
-              rows: 3
-          - type: gauge
-            entity: sensor.bedroom_temperature_humidity
-            severity:
-              green: 50
-              yellow: 60
-              red: 70
-            needle: false
-            grid_options:
-              columns: 6
-              rows: 3
-          - type: gauge
+            name: Bedroom
+            styles: |
+              .bubble-button-card-container {
+                position: relative !important;
+                background: transparent !important;
+              }
+              .bubble-button-card-container::before {
+                content: '' !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                z-index: 0 !important;
+                border-radius: inherit !important;
+                background: linear-gradient(90deg,
+                  #2196F3 0%,
+                  #4CAF50 33.33%,
+                  #FFC107 66.67%,
+                  #F44336 100%) !important;
+                -webkit-mask-image: linear-gradient(90deg,
+                  black 0%,
+                  black calc((${hass.states['sensor.bedroom_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) calc((${hass.states['sensor.bedroom_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) 100%) !important;
+                mask-image: linear-gradient(90deg,
+                  black 0%,
+                  black calc((${hass.states['sensor.bedroom_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) calc((${hass.states['sensor.bedroom_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) 100%) !important;
+              }
+              .bubble-button-card-container > * {
+                position: relative !important;
+                z-index: 1 !important;
+              }
+              .bubble-icon-container {
+                background: rgba(100, 130, 100, 0.4) !important;
+              }
+            sub_button:
+              - <<: *humidity_button_base
+                entity: sensor.bedroom_temperature_humidity
+
+          # Bathroom temperature
+          - <<: *temperature_card_base
             entity: sensor.bathroom_temperature
-            max: 33
-            severity:
-              green: 23
-              yellow: 25
-              red: 28
-            min: 18
-            grid_options:
-              columns: 6
-              rows: 3
-          - type: gauge
-            entity: sensor.bathroom_temperature_humidity
-            severity:
-              green: 50
-              yellow: 60
-              red: 70
-            needle: false
-            grid_options:
-              columns: 6
-              rows: 3
+            name: Bathroom
+            styles: |
+              .bubble-button-card-container {
+                position: relative !important;
+                background: transparent !important;
+              }
+              .bubble-button-card-container::before {
+                content: '' !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                z-index: 0 !important;
+                border-radius: inherit !important;
+                background: linear-gradient(90deg,
+                  #2196F3 0%,
+                  #4CAF50 33.33%,
+                  #FFC107 66.67%,
+                  #F44336 100%) !important;
+                -webkit-mask-image: linear-gradient(90deg,
+                  black 0%,
+                  black calc((${hass.states['sensor.bathroom_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) calc((${hass.states['sensor.bathroom_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) 100%) !important;
+                mask-image: linear-gradient(90deg,
+                  black 0%,
+                  black calc((${hass.states['sensor.bathroom_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) calc((${hass.states['sensor.bathroom_temperature'].state} - 15) / 15 * 100%),
+                  rgba(0, 0, 0, 0.2) 100%) !important;
+              }
+              .bubble-button-card-container > * {
+                position: relative !important;
+                z-index: 1 !important;
+              }
+              .bubble-icon-container {
+                background: rgba(100, 130, 100, 0.4) !important;
+              }
+            sub_button:
+              - <<: *humidity_button_base
+                entity: sensor.bathroom_temperature_humidity
           - type: custom:mushroom-climate-card
             entity: climate.air_conditioner_2
             fill_container: false

@@ -32,20 +32,6 @@ views:
           - type: custom:bubble-card
             card_type: button
             button_type: state
-            entity: sensor.living_room_temperature
-            show_attribute: false
-            card_layout: large
-            sub_button:
-              - entity: sensor.living_room_temperature
-                show_state: true
-              - entity: sensor.living_room_temperature_humidity
-                show_attribute: false
-                show_state: true
-            name: Living room
-            show_state: false
-          - type: custom:bubble-card
-            card_type: button
-            button_type: state
             name: Living room
             entity: cover.living_room_curtain_left
             show_state: false
