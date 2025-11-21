@@ -1,0 +1,17 @@
+# ================================================================================
+# Input Boolean Helpers
+# ================================================================================
+
+# Tracks whether vacuum cleaning was started by automation (vs manual start)
+# Used to determine if vacuum should auto-dock when someone arrives home
+cleaup_started_by_automation:
+  name: Cleanup started by automation
+  icon: mdi:robot-vacuum
+  initial: off
+
+# Tracks day/night mode for curtain automation
+# Used by sunrise/sunset automations to control curtain position
+day_night:
+  name: Day/night
+  icon: mdi:theme-light-dark
+  initial: on
