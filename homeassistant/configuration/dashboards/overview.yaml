@@ -322,10 +322,10 @@ views:
                 z-index: 0 !important;
                 border-radius: inherit !important;
                 background: linear-gradient(90deg,
-                  #2196F3 0%,
-                  #4CAF50 33.33%,
-                  #FFC107 66.67%,
-                  #F44336 100%) !important;
+                  #8caaee 0%,
+                  #a6d189 33.33%,
+                  #e5c890 66.67%,
+                  #e78284 100%) !important;
                 -webkit-mask-image: linear-gradient(90deg,
                   black 0%,
                   black calc((${hass.states['sensor.living_room_temperature'].state} - 15) / 15 * 100%),
@@ -341,8 +341,8 @@ views:
                 position: relative !important;
                 z-index: 1 !important;
               }
-              .bubble-icon-container {
-                background: rgba(100, 130, 100, 0.4) !important;
+              .bubble-sub-button {
+                background-color: var(--catppuccin-mauve) !important;
               }
             sub_button:
               - &humidity_button_base
@@ -372,10 +372,10 @@ views:
                 z-index: 0 !important;
                 border-radius: inherit !important;
                 background: linear-gradient(90deg,
-                  #2196F3 0%,
-                  #4CAF50 33.33%,
-                  #FFC107 66.67%,
-                  #F44336 100%) !important;
+                  #8caaee 0%,
+                  #a6d189 33.33%,
+                  #e5c890 66.67%,
+                  #e78284 100%) !important;
                 -webkit-mask-image: linear-gradient(90deg,
                   black 0%,
                   black calc((${hass.states['sensor.bedroom_temperature'].state} - 15) / 15 * 100%),
@@ -391,8 +391,8 @@ views:
                 position: relative !important;
                 z-index: 1 !important;
               }
-              .bubble-icon-container {
-                background: rgba(100, 130, 100, 0.4) !important;
+              .bubble-sub-button {
+                background-color: var(--catppuccin-mauve) !important;
               }
             sub_button:
               - <<: *humidity_button_base
@@ -417,10 +417,10 @@ views:
                 z-index: 0 !important;
                 border-radius: inherit !important;
                 background: linear-gradient(90deg,
-                  #2196F3 0%,
-                  #4CAF50 33.33%,
-                  #FFC107 66.67%,
-                  #F44336 100%) !important;
+                  #8caaee 0%,
+                  #a6d189 33.33%,
+                  #e5c890 66.67%,
+                  #e78284 100%) !important;
                 -webkit-mask-image: linear-gradient(90deg,
                   black 0%,
                   black calc((${hass.states['sensor.bathroom_temperature'].state} - 15) / 15 * 100%),
@@ -436,8 +436,8 @@ views:
                 position: relative !important;
                 z-index: 1 !important;
               }
-              .bubble-icon-container {
-                background: rgba(100, 130, 100, 0.4) !important;
+              .bubble-sub-button {
+                background-color: var(--catppuccin-mauve) !important;
               }
             sub_button:
               - <<: *humidity_button_base

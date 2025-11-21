@@ -1,0 +1,97 @@
+# ================================================================================
+# Bubble Card Catppuccin Theme Extensions
+# ================================================================================
+# This file extends the Catppuccin theme with Bubble Card-specific variables
+# All themes inherit these Bubble Card customizations
+
+Catppuccin Latte:
+  # Bubble Card - Border Radius
+  bubble-border-radius: 16px
+  bubble-icon-border-radius: 16px
+  bubble-sub-button-border-radius: 12px
+  
+  # Bubble Card - Backgrounds
+  bubble-main-background-color: var(--catppuccin-surface0)
+  bubble-secondary-background-color: var(--catppuccin-base)
+  bubble-icon-background-color: var(--catppuccin-surface1)
+  bubble-sub-button-background-color: var(--catppuccin-surface0)
+  
+  # Bubble Card - Accent (this controls button colors)
+  bubble-accent-color: var(--catppuccin-mauve)
+  
+  # Bubble Card - Shadows & Borders
+  bubble-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.1)
+  bubble-border: 1px solid var(--catppuccin-surface2)
+
+Catppuccin Frappe:
+  # Bubble Card - Border Radius
+  bubble-border-radius: 16px
+  bubble-icon-border-radius: 16px
+  bubble-sub-button-border-radius: 12px
+  
+  # Bubble Card - Backgrounds
+  bubble-main-background-color: var(--catppuccin-surface0)
+  bubble-secondary-background-color: var(--catppuccin-base)
+  bubble-icon-background-color: var(--catppuccin-surface1)
+  bubble-sub-button-background-color: var(--catppuccin-surface0)
+  
+  # Bubble Card - Accent (this controls button colors)
+  bubble-accent-color: var(--catppuccin-mauve)
+  
+  # Bubble Card - Shadows & Borders
+  bubble-box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.3)
+  bubble-border: 1px solid var(--catppuccin-surface2)
+
+Catppuccin Macchiato:
+  # Bubble Card - Border Radius
+  bubble-border-radius: 16px
+  bubble-icon-border-radius: 16px
+  bubble-sub-button-border-radius: 12px
+  
+  # Bubble Card - Backgrounds
+  bubble-main-background-color: var(--catppuccin-surface0)
+  bubble-secondary-background-color: var(--catppuccin-base)
+  bubble-icon-background-color: var(--catppuccin-surface1)
+  bubble-sub-button-background-color: var(--catppuccin-surface0)
+  
+  # Bubble Card - Accent (this controls button colors)
+  bubble-accent-color: var(--catppuccin-mauve)
+  
+  # Bubble Card - Shadows & Borders
+  bubble-box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.3)
+  bubble-border: 1px solid var(--catppuccin-surface2)
+
+Catppuccin Mocha:
+  # Bubble Card - Border Radius
+  bubble-border-radius: 16px
+  bubble-icon-border-radius: 16px
+  bubble-sub-button-border-radius: 12px
+  
+  # Bubble Card - Backgrounds
+  bubble-main-background-color: var(--catppuccin-surface0)
+  bubble-secondary-background-color: var(--catppuccin-base)
+  bubble-icon-background-color: var(--catppuccin-surface1)
+  bubble-sub-button-background-color: var(--catppuccin-surface0)
+  
+  # Bubble Card - Accent (this controls button colors)
+  bubble-accent-color: var(--catppuccin-mauve)
+  
+  # Bubble Card - Shadows & Borders
+  bubble-box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.4)
+  bubble-border: 1px solid var(--catppuccin-surface2)
+
+# Auto themes inherit from their base variants
+Catppuccin Auto Latte Frappe:
+  modes:
+    light: Catppuccin Latte
+    dark: Catppuccin Frappe
+
+Catppuccin Auto Latte Macchiato:
+  modes:
+    light: Catppuccin Latte
+    dark: Catppuccin Macchiato
+
+Catppuccin Auto Latte Mocha:
+  modes:
+    light: Catppuccin Latte
+    dark: Catppuccin Mocha
