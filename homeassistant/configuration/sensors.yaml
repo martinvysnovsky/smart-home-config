@@ -1,7 +1,43 @@
+# ================================================================================
+# Occupancy Statistics
+# ================================================================================
+
 - platform: history_stats
   type: time
   name: Kvetoslavov occupied
   entity_id: binary_sensor.someone_in_kvetoslavov
   state: "on"
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  type: ratio
+  name: Home occupancy percentage today
+  entity_id: zone.home
+  state: '1'
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+# ================================================================================
+# Vacuum Statistics
+# ================================================================================
+
+- platform: history_stats
+  type: time
+  name: Xiaomi vacuum runtime today
+  entity_id: vacuum.xiaomi_robot_vacuum_x20
+  state: cleaning
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+# ================================================================================
+# Pet Care Statistics
+# ================================================================================
+
+- platform: history_stats
+  type: count
+  name: Litter robot cycles today
+  entity_id: vacuum.litter_robot_litter_robot_4
+  state: cleaning
   start: "{{ now().replace(hour=0, minute=0, second=0) }}"
   end: "{{ now() }}"
