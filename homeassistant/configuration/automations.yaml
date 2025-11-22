@@ -202,7 +202,7 @@
 
 - id: '1736274045296'
   alias: Activate day mode
-  description: Opens living room curtains and sets day mode flag at sunrise
+  description: Opens living room curtains, sets day mode flag, and switches to light theme at sunrise
   triggers:
   - trigger: sun
     event: sunrise
@@ -214,11 +214,14 @@
     data: {}
     target:
       entity_id: scene.day_mode
+  - action: frontend.set_theme
+    data:
+      name: Catppuccin Latte
   mode: single
 
 - id: '1736274083799'
   alias: Activate night mode
-  description: Closes living room curtains and sets night mode flag at sunset
+  description: Closes living room curtains, sets night mode flag, and switches to dark theme at sunset
   triggers:
   - trigger: sun
     event: sunset
@@ -230,6 +233,9 @@
     data: {}
     target:
       entity_id: scene.night_mode
+  - action: frontend.set_theme
+    data:
+      name: Catppuccin Mocha
   mode: single
 
 # ================================================================================
