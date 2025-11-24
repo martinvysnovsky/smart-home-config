@@ -98,12 +98,15 @@
   - condition: time
     after: 08:00:00
     before: '22:00:00'
+  - condition: numeric_state
+    entity_id: sensor.xiaomi_robot_vacuum_x20_battery_level
+    above: 20
   actions:
   - action: input_boolean.turn_on
     metadata: {}
     data: {}
     target:
-      entity_id: input_boolean.cleaup_started_by_automation
+      entity_id: input_boolean.cleanup_started_by_automation
   - action: select.select_option
     target:
       entity_id: select.xiaomi_robot_vacuum_x20_cleaning_mode
@@ -132,7 +135,7 @@
     entity_id: vacuum.xiaomi_robot_vacuum_x20
     state: cleaning
   - condition: state
-    entity_id: input_boolean.cleaup_started_by_automation
+    entity_id: input_boolean.cleanup_started_by_automation
     state: 'on'
   actions:
   - action: vacuum.return_to_base
@@ -153,7 +156,37 @@
     metadata: {}
     data: {}
     target:
-      entity_id: input_boolean.cleaup_started_by_automation
+      entity_id: input_boolean.cleanup_started_by_automation
+  mode: single
+
+- id: '1732550000001'
+  alias: Notify on vacuum error during automated cleaning
+  description: Sends notification when vacuum encounters error during automated cleaning
+    and resets automation flag
+  triggers:
+  - trigger: state
+    entity_id: vacuum.xiaomi_robot_vacuum_x20
+    to: error
+  conditions:
+  - condition: state
+    entity_id: input_boolean.cleanup_started_by_automation
+    state: 'on'
+  actions:
+  - action: notify.mobile_app_pixel_8_pro
+    metadata: {}
+    data:
+      message: Vacuum encountered an error during automated cleaning
+      title: Vacuum Error
+  - action: notify.mobile_app_pixel_9a
+    metadata: {}
+    data:
+      message: Vacuum encountered an error during automated cleaning
+      title: Vacuum Error
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.cleanup_started_by_automation
   mode: single
 
 # ================================================================================
