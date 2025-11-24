@@ -4,8 +4,6 @@
 
 mode: yaml
 resources:
-  - url: /hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375421
-    type: module
   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620121
     type: module
   - url: /hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=331701152212
