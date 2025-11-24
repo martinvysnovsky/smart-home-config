@@ -1,0 +1,22 @@
+# ================================================================================
+# Notification Groups - Centralized notification service definitions
+# ================================================================================
+
+# All household users - use for general notifications
+- name: all_users
+  platform: group
+  services:
+    - service: mobile_app_pixel_8_pro
+    - service: mobile_app_pixel_9a
+
+# Martin's devices only - use for Martin-specific notifications
+- name: martin_devices
+  platform: group
+  services:
+    - service: mobile_app_pixel_8_pro
+
+# Lidia's devices only - use for Lidia-specific notifications
+- name: lidia_devices
+  platform: group
+  services:
+    - service: mobile_app_pixel_9a

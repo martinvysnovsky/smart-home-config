@@ -172,13 +172,7 @@
     entity_id: input_boolean.cleanup_started_by_automation
     state: 'on'
   actions:
-  - action: notify.mobile_app_pixel_8_pro
-    metadata: {}
-    data:
-      message: Vacuum encountered an error during automated cleaning
-      title: Vacuum Error
-  - action: notify.mobile_app_pixel_9a
-    metadata: {}
+  - action: notify.all_users
     data:
       message: Vacuum encountered an error during automated cleaning
       title: Vacuum Error
@@ -229,14 +223,10 @@
     above: 70
   conditions: []
   actions:
-  - action: notify.mobile_app_pixel_8_pro
-    metadata: {}
+  - action: notify.all_users
     data:
       message: Litter-robot waste above 70%
-  - action: notify.mobile_app_pixel_9a
-    metadata: {}
-    data:
-      message: Litter-robot waste above 70%
+      title: Litter Robot
   mode: single
 
 # ================================================================================
@@ -309,7 +299,7 @@
       - condition: trigger
         id: martin
       sequence:
-      - service: notify.mobile_app_pixel_8_pro
+      - action: notify.martin_devices
         data:
           message: Open your shopping list?
           data:
@@ -320,7 +310,7 @@
       - condition: trigger
         id: lidia
       sequence:
-      - service: notify.mobile_app_pixel_9a
+      - action: notify.lidia_devices
         data:
           message: Open your shopping list?
           data:
