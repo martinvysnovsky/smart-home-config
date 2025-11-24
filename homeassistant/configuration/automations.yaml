@@ -287,18 +287,18 @@
   alias: Open shopping list when entering a shop
   description: Sends notification with shopping list link when either person enters
     Lidl
-  trigger:
-  - platform: geo_location
-    source: person.martin_vysnovsky
+  triggers:
+  - trigger: zone
+    entity_id: person.martin_vysnovsky
     zone: zone.lidl
     event: enter
     id: martin
-  - platform: geo_location
-    source: person.lidia_silanteva
+  - trigger: zone
+    entity_id: person.lidia_silanteva
     zone: zone.lidl
     event: enter
     id: lidia
-  condition: []
+  conditions: []
   action:
   - choose:
     - conditions:
