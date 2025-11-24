@@ -15,3 +15,10 @@ day_night:
   name: Day/night
   icon: mdi:theme-light-dark
   initial: on
+
+# Sleep mode - suppresses non-critical notifications and automations during sleep hours
+# Automatically enabled at 21:30, disabled at 08:00
+sleep_mode:
+  name: Sleep mode
+  icon: mdi:sleep
+  initial: off

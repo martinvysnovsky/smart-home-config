@@ -164,7 +164,7 @@
 - id: '1732550000001'
   alias: Notify on vacuum error during automated cleaning
   description: Sends notification when vacuum encounters error during automated cleaning
-    and resets automation flag
+    and resets automation flag (only during waking hours)
   triggers:
   - trigger: state
     entity_id: vacuum.xiaomi_robot_vacuum_x20
@@ -173,11 +173,18 @@
   - condition: state
     entity_id: input_boolean.cleanup_started_by_automation
     state: 'on'
+  - condition: state
+    entity_id: input_boolean.sleep_mode
+    state: 'off'
   actions:
   - action: notify.all_users
     data:
       message: Vacuum encountered an error during automated cleaning
       title: Vacuum Error
+      data:
+        priority: high
+        channel: important
+        tag: vacuum_error
   - action: input_boolean.turn_off
     metadata: {}
     data: {}
@@ -192,7 +199,7 @@
 - id: '1733920534581'
   alias: Clean bathroom after Litter Robot run
   description: Triggers bathroom cleaning with Xiaomi vacuum after Litter Robot finishes
-    cleaning cycle (08:00-21:30)
+    cleaning cycle (only when not in sleep mode)
   triggers:
   - trigger: state
     entity_id:
@@ -200,9 +207,9 @@
     to:
     - ccp
   conditions:
-  - condition: time
-    after: 08:00:00
-    before: '21:30:00'
+  - condition: state
+    entity_id: input_boolean.sleep_mode
+    state: 'off'
   - condition: not
     conditions:
     - condition: state
@@ -220,8 +227,8 @@
 
 - id: '1736690440951'
   alias: Litter-robot waste full
-  description: Sends mobile notification when Litter Robot waste drawer reaches 70%
-    capacity
+  description: Sends notification when Litter Robot waste drawer reaches 70% capacity
+    (waits until morning if triggered during sleep hours)
   triggers:
   - trigger: numeric_state
     entity_id:
@@ -229,10 +236,26 @@
     above: 70
   conditions: []
   actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.sleep_mode
+        state: 'on'
+      sequence:
+      - wait_for_trigger:
+        - trigger: state
+          entity_id: input_boolean.sleep_mode
+          to: 'off'
+        timeout: '12:00:00'
+        continue_on_timeout: false
   - action: notify.all_users
     data:
       message: Litter-robot waste above 70%
       title: Litter Robot
+      data:
+        priority: high
+        channel: important
+        tag: litter_robot_waste
   mode: single
 
 # ================================================================================
@@ -277,6 +300,38 @@
   - action: frontend.set_theme
     data:
       name: Catppuccin Mocha
+  mode: single
+
+# ================================================================================
+# Sleep Mode Management - Quiet hours for notifications and automations
+# ================================================================================
+
+- id: '1732560000001'
+  alias: Enable sleep mode at night
+  description: Activates sleep mode at 21:30 to suppress non-critical notifications
+    and automations
+  triggers:
+  - trigger: time
+    at: '21:30:00'
+  conditions: []
+  actions:
+  - action: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.sleep_mode
+  mode: single
+
+- id: '1732560000002'
+  alias: Disable sleep mode in morning
+  description: Deactivates sleep mode at 08:00 to resume normal notifications and
+    automations
+  triggers:
+  - trigger: time
+    at: '08:00:00'
+  conditions: []
+  actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.sleep_mode
   mode: single
 
 # ================================================================================
