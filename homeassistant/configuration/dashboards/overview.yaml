@@ -73,8 +73,10 @@ views:
       # ============================================================================
       - type: grid
         cards:
-          - type: heading
-            heading: General
+          - type: custom:bubble-card
+            card_type: separator
+            name: General
+            icon: mdi:home-circle
           - square: false
             type: grid
             cards:
@@ -140,8 +142,10 @@ views:
       # ============================================================================
       - type: grid
         cards:
-          - type: heading
-            heading: Home
+          - type: custom:bubble-card
+            card_type: separator
+            name: Home
+            icon: mdi:home-outline
           - type: tile
             entity: cover.living_room_curtain_left
           - type: tile
@@ -164,6 +168,10 @@ views:
       # ============================================================================
       - type: grid
         cards:
+          - type: custom:bubble-card
+            card_type: separator
+            name: Motion Detection & Scenes
+            icon: mdi:motion-sensor
           - square: false
             type: grid
             cards:
@@ -319,9 +327,10 @@ views:
       # ============================================================================
       - type: grid
         cards:
-          - type: heading
-            heading_style: title
-            heading: Temperature and humidity
+          - type: custom:bubble-card
+            card_type: separator
+            name: Temperature and humidity
+            icon: mdi:thermometer
           # Living room temperature
           - &temperature_card_base
             type: custom:bubble-card
@@ -472,6 +481,7 @@ views:
           - type: custom:bubble-card
             card_type: climate
             entity: climate.air_conditioner_2
+            card_layout: large
             sub_button:
               - name: HVAC modes menu
                 select_attribute: hvac_modes
