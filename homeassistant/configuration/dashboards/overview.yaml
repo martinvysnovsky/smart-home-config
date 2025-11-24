@@ -179,10 +179,26 @@ views:
       # ============================================================================
       - type: grid
         cards:
+          # Home motion detection with scene control
           - type: custom:bubble-card
             card_type: separator
-            name: Motion Detection & Scenes
+            name: Home Motion Detection
             icon: mdi:motion-sensor
+            sub_button:
+              - entity: input_boolean.home_away_mode
+                show_name: true
+                show_state: false
+                show_background: true
+                tap_action:
+                  action: toggle
+            styles: |
+              ${subButtonIcon[0].setAttribute("icon", hass.states['input_boolean.home_away_mode'].state === 'on' ? 'mdi:home' : 'mdi:home-export-outline')}
+              ${(() => {
+                const nameElement = card.querySelector('.bubble-sub-button-container .bubble-name');
+                if (nameElement) {
+                  nameElement.innerText = hass.states['input_boolean.home_away_mode'].state === 'on' ? 'Present' : 'Away';
+                }
+              })()}
           - square: false
             type: grid
             cards:
@@ -198,6 +214,11 @@ views:
                     show_last_changed: true
                     show_attribute: false
                     card_layout: large-2-rows
+                    styles: |
+                      .bubble-icon-container {
+                        background: ${hass.states['select.living_room_motion_detection'].state === 'off' ? 'rgba(150,150,150,0.5)' : 'var(--accent-color)'} !important;
+                      }
+                      ${icon.setAttribute("icon", hass.states['select.living_room_motion_detection'].state === 'off' ? 'mdi:motion-sensor-off' : 'mdi:motion-sensor')}
                   - type: custom:bubble-card
                     card_type: button
                     button_type: state
@@ -207,6 +228,11 @@ views:
                     show_last_changed: true
                     show_attribute: false
                     card_layout: large-2-rows
+                    styles: |
+                      .bubble-icon-container {
+                        background: ${hass.states['select.kitchen_motion_detection'].state === 'off' ? 'rgba(150,150,150,0.5)' : 'var(--accent-color)'} !important;
+                      }
+                      ${icon.setAttribute("icon", hass.states['select.kitchen_motion_detection'].state === 'off' ? 'mdi:motion-sensor-off' : 'mdi:motion-sensor')}
                   - type: custom:bubble-card
                     card_type: button
                     button_type: state
@@ -216,6 +242,11 @@ views:
                     show_last_changed: true
                     show_attribute: false
                     card_layout: large-2-rows
+                    styles: |
+                      .bubble-icon-container {
+                        background: ${hass.states['select.bedroom_motion_detection'].state === 'off' ? 'rgba(150,150,150,0.5)' : 'var(--accent-color)'} !important;
+                      }
+                      ${icon.setAttribute("icon", hass.states['select.bedroom_motion_detection'].state === 'off' ? 'mdi:motion-sensor-off' : 'mdi:motion-sensor')}
                   - type: custom:bubble-card
                     card_type: button
                     button_type: state
@@ -225,34 +256,31 @@ views:
                     show_last_changed: true
                     show_attribute: false
                     card_layout: large-2-rows
-                title: Home motion detection
+                    styles: |
+                      .bubble-icon-container {
+                        background: ${hass.states['select.hall_motion_detection'].state === 'off' ? 'rgba(150,150,150,0.5)' : 'var(--accent-color)'} !important;
+                      }
+                      ${icon.setAttribute("icon", hass.states['select.hall_motion_detection'].state === 'off' ? 'mdi:motion-sensor-off' : 'mdi:motion-sensor')}
                 columns: 4
-              - square: false
-                type: grid
-                cards:
-                  - show_name: false
-                    show_icon: true
-                    type: button
-                    tap_action:
-                      action: call-service
-                      service: scene.turn_on
-                      target:
-                        entity_id: scene.home
-                      data: {}
-                    entity: binary_sensor.someone_is_home
-                    icon_height: 32px
+              - type: custom:bubble-card
+                card_type: separator
+                name: Kvetoslavov Motion Detection
+                icon: mdi:motion-sensor
+                sub_button:
+                  - entity: input_boolean.kvetoslavov_home_away_mode
+                    show_name: true
                     show_state: false
-                  - show_name: false
-                    show_icon: true
-                    type: button
+                    show_background: true
                     tap_action:
-                      action: perform-action
-                      perform_action: scene.turn_on
-                      target:
-                        entity_id: scene.away
-                    entity: scene.away
-                    icon_height: 32px
-                columns: 2
+                      action: toggle
+                styles: |
+                  ${subButtonIcon[0].setAttribute("icon", hass.states['input_boolean.kvetoslavov_home_away_mode'].state === 'on' ? 'mdi:home' : 'mdi:home-export-outline')}
+                  ${(() => {
+                    const nameElement = card.querySelector('.bubble-sub-button-container .bubble-name');
+                    if (nameElement) {
+                      nameElement.innerText = hass.states['input_boolean.kvetoslavov_home_away_mode'].state === 'on' ? 'Present' : 'Away';
+                    }
+                  })()}
               - square: false
                 type: grid
                 cards:
@@ -265,6 +293,17 @@ views:
                     show_last_changed: true
                     show_attribute: false
                     card_layout: large-2-rows
+                    styles: |
+                      .bubble-icon-container {
+                        background: ${hass.states['switch.camera_front_disarming'].state === 'off' ? 'var(--accent-color)' : 'rgba(150,150,150,0.5)'} !important;
+                      }
+                      .bubble-button-background {
+                        opacity: ${hass.states['switch.camera_front_disarming'].state === 'off' ? '1' : '0'} !important;
+                      }
+                      .bubble-icon {
+                        color: ${hass.states['switch.camera_front_disarming'].state === 'off' ? 'var(--primary-text-color)' : 'rgba(150,150,150,0.8)'} !important;
+                      }
+                      ${icon.setAttribute("icon", hass.states['switch.camera_front_disarming'].state === 'off' ? 'mdi:cctv' : 'mdi:cctv-off')}
                   - type: custom:bubble-card
                     card_type: button
                     button_type: switch
@@ -274,6 +313,17 @@ views:
                     show_last_changed: true
                     show_attribute: false
                     card_layout: large-2-rows
+                    styles: |
+                      .bubble-icon-container {
+                        background: ${hass.states['switch.camera_parking_disarming'].state === 'off' ? 'var(--accent-color)' : 'rgba(150,150,150,0.5)'} !important;
+                      }
+                      .bubble-button-background {
+                        opacity: ${hass.states['switch.camera_parking_disarming'].state === 'off' ? '1' : '0'} !important;
+                      }
+                      .bubble-icon {
+                        color: ${hass.states['switch.camera_parking_disarming'].state === 'off' ? 'var(--primary-text-color)' : 'rgba(150,150,150,0.8)'} !important;
+                      }
+                      ${icon.setAttribute("icon", hass.states['switch.camera_parking_disarming'].state === 'off' ? 'mdi:cctv' : 'mdi:cctv-off')}
                   - type: custom:bubble-card
                     card_type: button
                     button_type: switch
@@ -283,30 +333,17 @@ views:
                     show_last_changed: true
                     show_attribute: false
                     card_layout: large-2-rows
-                title: Kvetoslavov motion detection
-              - square: false
-                type: grid
-                cards:
-                  - show_name: false
-                    show_icon: true
-                    type: button
-                    tap_action:
-                      action: call-service
-                      service: scene.turn_on
-                      target:
-                        entity_id: scene.in_kvetoslavov
-                    entity: binary_sensor.someone_in_kvetoslavov
-                    show_state: false
-                    icon_height: 32px
-                    icon: mdi:home
-                  - show_name: false
-                    show_icon: true
-                    type: button
-                    tap_action:
-                      action: toggle
-                    entity: scene.away_from_kvetoslavov
-                    icon_height: 32px
-                columns: 2
+                    styles: |
+                      .bubble-icon-container {
+                        background: ${hass.states['switch.camera_terrace_disarming'].state === 'off' ? 'var(--accent-color)' : 'rgba(150,150,150,0.5)'} !important;
+                      }
+                      .bubble-button-background {
+                        opacity: ${hass.states['switch.camera_terrace_disarming'].state === 'off' ? '1' : '0'} !important;
+                      }
+                      .bubble-icon {
+                        color: ${hass.states['switch.camera_terrace_disarming'].state === 'off' ? 'var(--primary-text-color)' : 'rgba(150,150,150,0.8)'} !important;
+                      }
+                      ${icon.setAttribute("icon", hass.states['switch.camera_terrace_disarming'].state === 'off' ? 'mdi:cctv' : 'mdi:cctv-off')}
             columns: 1
           - type: custom:apexcharts-card
             graph_span: 30d

@@ -22,3 +22,19 @@ sleep_mode:
   name: Sleep mode
   icon: mdi:sleep
   initial: off
+
+# Home/Away mode - represents current presence mode and triggers scene changes
+# ON = Home mode (privacy on, motion detection off)
+# OFF = Away mode (privacy off, motion detection on)
+home_away_mode:
+  name: Home/Away Mode
+  icon: mdi:home-account
+  initial: on
+
+# Kvetoslavov Home/Away mode - represents presence mode for Kvetoslavov location
+# ON = In Kvetoslavov (NVR disarming on, event notifications off)
+# OFF = Away from Kvetoslavov (NVR disarming off, event notifications on)
+kvetoslavov_home_away_mode:
+  name: Kvetoslavov Home/Away Mode
+  icon: mdi:home-account
+  initial: off
