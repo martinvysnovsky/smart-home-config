@@ -146,6 +146,13 @@ views:
             card_type: separator
             name: Home
             icon: mdi:home-outline
+          - type: custom:bubble-card
+            card_type: separator
+            name: Living Room
+            icon: mdi:sofa
+            styles: |
+              .bubble-line { opacity: 0.2; }
+              .bubble-name { font-size: 13px; opacity: 0.7; }
           - type: tile
             entity: cover.living_room_curtain_left
           - type: tile
@@ -156,12 +163,16 @@ views:
               - condition: state
                 entity: media_player.living_room_speaker
                 state_not: "off"
+          - type: custom:bubble-card
+            card_type: separator
+            name: Vacuum Cleaner
+            icon: mdi:robot-vacuum
+            styles: |
+              .bubble-line { opacity: 0.2; }
+              .bubble-name { font-size: 13px; opacity: 0.7; }
           - type: custom:vacuum-card
             entity: vacuum.xiaomi_robot_vacuum_x20
             map: camera.xiaomi_robot_vacuum_x20_map
-          - type: custom:vacuum-card
-            entity: vacuum.roomba
-            show_name: false
 
       # ============================================================================
       # Motion Detection & Scenes Section
