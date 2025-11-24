@@ -342,7 +342,7 @@ views:
                 z-index: 1 !important;
               }
               .bubble-sub-button {
-                background-color: var(--catppuccin-mauve) !important;
+                background: rgba(255, 255, 255, 0.2) !important;
               }
             sub_button:
               - &humidity_button_base
@@ -392,7 +392,7 @@ views:
                 z-index: 1 !important;
               }
               .bubble-sub-button {
-                background-color: var(--catppuccin-mauve) !important;
+                background: rgba(255, 255, 255, 0.2) !important;
               }
             sub_button:
               - <<: *humidity_button_base
@@ -437,7 +437,7 @@ views:
                 z-index: 1 !important;
               }
               .bubble-sub-button {
-                background-color: var(--catppuccin-mauve) !important;
+                background: rgba(255, 255, 255, 0.2) !important;
               }
             sub_button:
               - <<: *humidity_button_base
