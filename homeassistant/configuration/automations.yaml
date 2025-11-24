@@ -29,6 +29,7 @@
     entity_id:
     - zone.home
     to: '0'
+    for: '00:01:00'
   conditions: []
   actions:
   - target:
@@ -48,6 +49,7 @@
     - zone.kvetoslavov_home
     from:
     to: '0'
+    for: '00:01:00'
   conditions: []
   actions:
   - target:
