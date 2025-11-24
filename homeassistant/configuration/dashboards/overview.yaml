@@ -8,7 +8,7 @@ title: Home
 views:
   - title: HOME
     icon: ""
-    theme: Mushroom
+    theme: catppuccin-mocha
     type: sections
     max_columns: 4
     badges:
@@ -78,15 +78,24 @@ views:
           - square: false
             type: grid
             cards:
-              - type: custom:mushroom-person-card
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
                 entity: person.martin_vysnovsky
+                show_state: true
+                show_last_changed: true
+                show_attribute: false
+                card_layout: large
                 icon_type: entity-picture
-                secondary_info: last-updated
-              - type: custom:mushroom-person-card
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
                 entity: person.lidia_silanteva
-                fill_container: false
+                show_state: true
+                show_last_changed: true
+                show_attribute: false
+                card_layout: large
                 icon_type: entity-picture
-                secondary_info: last-updated
             columns: 2
           - show_current: true
             show_forecast: true
@@ -161,33 +170,42 @@ views:
               - square: false
                 type: grid
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: custom:bubble-card
+                    card_type: button
+                    button_type: state
                     entity: select.living_room_motion_detection
-                    fill_container: false
-                    primary_info: name
                     name: Living room
-                    secondary_info: last-changed
-                    layout: vertical
-                    icon_type: icon
-                    icon_color: cyan
-                  - type: custom:mushroom-entity-card
+                    show_state: true
+                    show_last_changed: true
+                    show_attribute: false
+                    card_layout: large-2-rows
+                  - type: custom:bubble-card
+                    card_type: button
+                    button_type: state
                     entity: select.kitchen_motion_detection
                     name: Kitchen
-                    layout: vertical
-                    secondary_info: last-changed
-                    icon_color: cyan
-                  - type: custom:mushroom-entity-card
+                    show_state: true
+                    show_last_changed: true
+                    show_attribute: false
+                    card_layout: large-2-rows
+                  - type: custom:bubble-card
+                    card_type: button
+                    button_type: state
                     entity: select.bedroom_motion_detection
                     name: Bedroom
-                    layout: vertical
-                    secondary_info: last-changed
-                    icon_color: cyan
-                  - type: custom:mushroom-entity-card
+                    show_state: true
+                    show_last_changed: true
+                    show_attribute: false
+                    card_layout: large-2-rows
+                  - type: custom:bubble-card
+                    card_type: button
+                    button_type: state
                     entity: select.hall_motion_detection
                     name: Hall
-                    layout: vertical
-                    secondary_info: last-changed
-                    icon_color: cyan
+                    show_state: true
+                    show_last_changed: true
+                    show_attribute: false
+                    card_layout: large-2-rows
                 title: Home motion detection
                 columns: 4
               - square: false
@@ -219,24 +237,33 @@ views:
               - square: false
                 type: grid
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: custom:bubble-card
+                    card_type: button
+                    button_type: switch
                     entity: switch.camera_front_disarming
-                    secondary_info: last-changed
-                    layout: vertical
-                    icon_color: cyan
                     name: Front
-                  - type: custom:mushroom-entity-card
+                    show_state: true
+                    show_last_changed: true
+                    show_attribute: false
+                    card_layout: large-2-rows
+                  - type: custom:bubble-card
+                    card_type: button
+                    button_type: switch
                     entity: switch.camera_parking_disarming
-                    secondary_info: last-changed
-                    layout: vertical
-                    icon_color: cyan
                     name: Parking
-                  - type: custom:mushroom-entity-card
+                    show_state: true
+                    show_last_changed: true
+                    show_attribute: false
+                    card_layout: large-2-rows
+                  - type: custom:bubble-card
+                    card_type: button
+                    button_type: switch
                     entity: switch.camera_terrace_disarming
-                    layout: vertical
-                    secondary_info: last-changed
-                    icon_color: cyan
                     name: Terrace
+                    show_state: true
+                    show_last_changed: true
+                    show_attribute: false
+                    card_layout: large-2-rows
                 title: Kvetoslavov motion detection
               - square: false
                 type: grid
@@ -442,12 +469,11 @@ views:
             sub_button:
               - <<: *humidity_button_base
                 entity: sensor.bathroom_temperature_humidity
-          - type: custom:mushroom-climate-card
+          - type: custom:bubble-card
+            card_type: climate
             entity: climate.air_conditioner_2
-            fill_container: false
-            collapsible_controls: true
-            hvac_modes: []
-            show_temperature_control: true
-            layout: horizontal
-            tap_action:
-              action: more-info
+            sub_button:
+              - name: HVAC modes menu
+                select_attribute: hvac_modes
+                state_background: false
+                show_arrow: false
