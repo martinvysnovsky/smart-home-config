@@ -1,0 +1,14 @@
+# ================================================================================
+# Entity Groups Configuration
+# ================================================================================
+# Defines groups for various entities (covers, lights, switches, etc.)
+
+# ================================================================================
+# Cover Groups
+# ================================================================================
+
+living_room_curtains:
+  name: Living Room Curtains
+  entities:
+    - cover.living_room_curtain_left
+    - cover.living_room_curtain_right

@@ -26,17 +26,3 @@ views:
             state_color: false
             show_attribute: true
             attribute: current_temperature
-          - type: custom:bubble-card
-            card_type: cover
-            entity: cover.living_room_curtain_left
-          - type: custom:bubble-card
-            card_type: button
-            button_type: state
-            name: Living room
-            entity: cover.living_room_curtain_left
-            show_state: false
-            sub_button:
-              - entity: sensor.living_room_curtain_left_battery
-                show_state: true
-              - entity: sensor.living_room_curtain_right_battery
-                show_state: true

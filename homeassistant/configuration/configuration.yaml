@@ -12,3 +12,4 @@ sensor: !include sensors.yaml
 input_boolean: !include helpers.yaml
 lovelace: !include dashboards.yaml
 notify: !include notifications.yaml
+group: !include groups.yaml
