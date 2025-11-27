@@ -104,38 +104,604 @@ views:
             type: weather-forecast
             entity: weather.forecast_home
             forecast_type: hourly
-          - type: entities
-            entities:
-              - entity: sensor.pixel_8_pro_battery_level
-                icon: mdi:cellphone
-                secondary_info: last-updated
+          # ============================================================================
+          # Battery Levels Section - Bubble Card Design
+          # ============================================================================
+          - type: custom:bubble-card
+            card_type: separator
+            name: Battery Levels
+            icon: mdi:battery-heart-variant
+            styles: |
+              .bubble-line { opacity: 0.5; }
+
+          # Mobile Devices Category
+          - type: custom:bubble-card
+            card_type: separator
+            name: Mobile Devices
+            icon: mdi:cellphone-battery
+            styles: |
+              .bubble-line { opacity: 0.2; }
+              .bubble-name { font-size: 13px; opacity: 0.7; }
+
+          - type: grid
+            square: false
+            columns: 3
+            cards:
+              # Pixel 8 Pro Battery
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.pixel_8_pro_battery_level
                 name: Pixel 8 Pro
-              - entity: sensor.martins_ipad_battery_level
-                icon: mdi:tablet
-                name: iPad
-                secondary_info: last-updated
-              - entity: sensor.pixel_9a_battery_level
                 icon: mdi:cellphone
-                name: Lidia's phone
-              - entity: sensor.roomba_battery
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Pixel 8 Pro Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 7d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.pixel_8_pro_battery_level
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.pixel_8_pro_battery_level'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.pixel_8_pro_battery_level'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.pixel_8_pro_battery_level'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+              # iPad Battery
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.martins_ipad_battery_level
+                name: iPad
+                icon: mdi:tablet
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: iPad Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 7d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.martins_ipad_battery_level
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.martins_ipad_battery_level'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.martins_ipad_battery_level'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.martins_ipad_battery_level'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.martins_ipad_battery_level'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.martins_ipad_battery_level'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.martins_ipad_battery_level'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.martins_ipad_battery_level'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.martins_ipad_battery_level'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.martins_ipad_battery_level'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.martins_ipad_battery_level'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.martins_ipad_battery_level'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+              # Pixel 9a Battery
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.pixel_9a_battery_level
+                name: Lidia's Phone
+                icon: mdi:cellphone
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Pixel 9a Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 7d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.pixel_9a_battery_level
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.pixel_9a_battery_level'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.pixel_9a_battery_level'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.pixel_9a_battery_level'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.pixel_9a_battery_level'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.pixel_9a_battery_level'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.pixel_9a_battery_level'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.pixel_9a_battery_level'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.pixel_9a_battery_level'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.pixel_9a_battery_level'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.pixel_9a_battery_level'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.pixel_9a_battery_level'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+          # Cleaning Robots Category
+          - type: custom:bubble-card
+            card_type: separator
+            name: Cleaning Robots
+            icon: mdi:robot-vacuum-variant
+            styles: |
+              .bubble-line { opacity: 0.2; }
+              .bubble-name { font-size: 13px; opacity: 0.7; }
+
+          - type: grid
+            square: false
+            columns: 2
+            cards:
+              # Roomba Battery
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.roomba_battery
+                name: Roomba
                 icon: mdi:robot-vacuum
-                secondary_info: last-updated
-              - entity: sensor.xiaomi_robot_vacuum_x20_battery_level
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Roomba Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 7d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.roomba_battery
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.roomba_battery'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.roomba_battery'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.roomba_battery'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.roomba_battery'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.roomba_battery'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.roomba_battery'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.roomba_battery'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.roomba_battery'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.roomba_battery'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.roomba_battery'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.roomba_battery'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+              # Xiaomi Vacuum Battery
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.xiaomi_robot_vacuum_x20_battery_level
+                name: Xiaomi Vacuum
                 icon: mdi:robot-vacuum
-              - entity: sensor.plant_sensor_d766_battery
-              - entity: sensor.living_room_temperature_battery
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Xiaomi Vacuum Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 7d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.xiaomi_robot_vacuum_x20_battery_level
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.xiaomi_robot_vacuum_x20_battery_level'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+          # Smart Home Sensors Category
+          - type: custom:bubble-card
+            card_type: separator
+            name: Smart Home Sensors
+            icon: mdi:home-automation
+            styles: |
+              .bubble-line { opacity: 0.2; }
+              .bubble-name { font-size: 13px; opacity: 0.7; }
+
+          - type: grid
+            square: false
+            columns: 3
+            cards:
+              # Living Room Temperature Sensor
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.living_room_temperature_battery
+                name: Living Room
                 icon: mdi:thermometer
-              - entity: sensor.bedroom_temperature_battery
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Living Room Sensor Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 30d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.living_room_temperature_battery
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.living_room_temperature_battery'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.living_room_temperature_battery'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.living_room_temperature_battery'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.living_room_temperature_battery'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.living_room_temperature_battery'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.living_room_temperature_battery'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.living_room_temperature_battery'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.living_room_temperature_battery'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.living_room_temperature_battery'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.living_room_temperature_battery'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.living_room_temperature_battery'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+              # Bedroom Temperature Sensor
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.bedroom_temperature_battery
+                name: Bedroom
                 icon: mdi:thermometer
-              - entity: sensor.bathroom_temperature_battery
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Bedroom Sensor Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 30d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.bedroom_temperature_battery
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.bedroom_temperature_battery'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.bedroom_temperature_battery'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.bedroom_temperature_battery'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.bedroom_temperature_battery'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.bedroom_temperature_battery'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.bedroom_temperature_battery'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.bedroom_temperature_battery'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.bedroom_temperature_battery'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.bedroom_temperature_battery'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.bedroom_temperature_battery'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.bedroom_temperature_battery'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+              # Bathroom Temperature Sensor
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.bathroom_temperature_battery
+                name: Bathroom
                 icon: mdi:thermometer
-              - entity: sensor.living_room_curtain_left_battery
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Bathroom Sensor Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 30d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.bathroom_temperature_battery
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.bathroom_temperature_battery'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.bathroom_temperature_battery'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.bathroom_temperature_battery'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.bathroom_temperature_battery'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.bathroom_temperature_battery'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.bathroom_temperature_battery'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.bathroom_temperature_battery'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.bathroom_temperature_battery'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.bathroom_temperature_battery'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.bathroom_temperature_battery'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.bathroom_temperature_battery'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+              # Living Room Curtain Left
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.living_room_curtain_left_battery
+                name: Curtain Left
                 icon: mdi:curtains
-              - entity: sensor.living_room_curtain_right_battery
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Left Curtain Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 30d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.living_room_curtain_left_battery
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.living_room_curtain_left_battery'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.living_room_curtain_left_battery'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.living_room_curtain_left_battery'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+              # Living Room Curtain Right
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.living_room_curtain_right_battery
+                name: Curtain Right
                 icon: mdi:curtains
-            title: Battery levels
-            show_header_toggle: true
-            state_color: true
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Right Curtain Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 30d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.living_room_curtain_right_battery
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.living_room_curtain_right_battery'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.living_room_curtain_right_battery'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.living_room_curtain_right_battery'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
+
+              # Plant Sensor
+              - type: custom:bubble-card
+                card_type: button
+                button_type: state
+                entity: sensor.plant_sensor_d766_battery
+                name: Plant Sensor
+                icon: mdi:flower
+                show_state: true
+                show_last_changed: true
+                card_layout: large-2-rows
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.popup
+                    data:
+                      title: Plant Sensor Battery
+                      content:
+                        type: custom:apexcharts-card
+                        graph_span: 30d
+                        header:
+                          show: true
+                          title: Battery History
+                          show_states: true
+                        series:
+                          - entity: sensor.plant_sensor_d766_battery
+                            name: Battery Level
+                            stroke_width: 2
+                            type: line
+                            color: var(--catppuccin-green)
+                styles: |
+                  .bubble-icon-container {
+                    background: ${
+                      hass.states['sensor.plant_sensor_d766_battery'].state > 60 ? 'var(--catppuccin-green)' :
+                      hass.states['sensor.plant_sensor_d766_battery'].state > 30 ? 'var(--catppuccin-yellow)' :
+                      'var(--catppuccin-red)'
+                    } !important;
+                  }
+                  ${icon.setAttribute("icon", 
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 90 ? 'mdi:battery' :
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 80 ? 'mdi:battery-90' :
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 70 ? 'mdi:battery-80' :
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 60 ? 'mdi:battery-70' :
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 50 ? 'mdi:battery-60' :
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 40 ? 'mdi:battery-50' :
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 30 ? 'mdi:battery-40' :
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 20 ? 'mdi:battery-30' :
+                    hass.states['sensor.plant_sensor_d766_battery'].state > 10 ? 'mdi:battery-20' :
+                    'mdi:battery-10'
+                  )}
 
       # ============================================================================
       # Home Controls Section
