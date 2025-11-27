@@ -4,10 +4,8 @@
 This repository contains Home Assistant and Kincony (ESPHome) configuration for a smart home system. Primary languages: YAML, Python, C++.
 
 ## Build/Test Commands
-- **Home Assistant**: `docker compose up -d` (from homeassistant/)
 - **Kincony compile**: `esphome run configuration/home.yaml` (from kincony/)
 - **Kincony logs**: `esphome logs configuration/home.yaml`
-- **Restart HA**: `docker restart homeassistant`
 
 ## Code Style
 
