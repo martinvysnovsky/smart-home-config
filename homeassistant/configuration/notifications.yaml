@@ -7,16 +7,24 @@
   platform: group
   services:
     - service: mobile_app_pixel_8_pro
+      data:
+        channel: General
     - service: mobile_app_pixel_9a
+      data:
+        channel: General
 
 # Martin's devices only - use for Martin-specific notifications
 - name: martin_devices
   platform: group
   services:
     - service: mobile_app_pixel_8_pro
+      data:
+        channel: General
 
 # Lidia's devices only - use for Lidia-specific notifications
 - name: lidia_devices
   platform: group
   services:
     - service: mobile_app_pixel_9a
+      data:
+        channel: General
