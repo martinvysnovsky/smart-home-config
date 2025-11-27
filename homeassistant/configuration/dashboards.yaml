@@ -25,11 +25,6 @@ dashboards:
     title: Map
     icon: mdi:map
     show_in_sidebar: true
-  lovelace-bubble:
-    mode: yaml
-    filename: dashboards/bubble.yaml
-    title: Bubble
-    show_in_sidebar: true
   lovelace-home:
     mode: yaml
     filename: dashboards/home.yaml
