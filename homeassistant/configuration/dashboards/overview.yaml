@@ -164,7 +164,8 @@ views:
             state_color: true
             grid_options:
               columns: full
-          - type: media-control
+          - type: custom:bubble-card
+            card_type: media-player
             entity: media_player.living_room_speaker
             visibility:
               - condition: state
