@@ -285,6 +285,7 @@
     entity_id:
     - sensor.litter_robot_4_waste_drawer
     above: 70
+    for: "00:05:00"
   conditions: []
   actions:
   - choose:
@@ -298,7 +299,7 @@
           entity_id: input_boolean.sleep_mode
           to: 'off'
         timeout: '12:00:00'
-        continue_on_timeout: false
+        continue_on_timeout: true
   - action: notify.all_users
     data:
       message: Litter-robot waste above 70%
