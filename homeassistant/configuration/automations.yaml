@@ -270,10 +270,6 @@
     - condition: state
       entity_id: vacuum.xiaomi_robot_vacuum_x20
       state: cleaning
-  - condition: template
-    value_template: >
-      {% set last_triggered = state_attr('automation.clean_bathroom_after_litter_robot_run', 'last_triggered') %}
-      {{ last_triggered == none or (now() - last_triggered).total_seconds() > 7200 }}
   actions:
   - action: script.clean_bathroom
     metadata: {}
