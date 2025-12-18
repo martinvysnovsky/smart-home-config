@@ -1,30 +1,18 @@
 # ================================================================================
-# Notification Groups - Centralized notification service definitions
+# Notification Groups - Use UI to create groups for mobile app notifications
 # ================================================================================
-
-# All household users - use for general notifications
-- name: all_users
-  platform: group
-  services:
-    - service: mobile_app_pixel_8_pro
-      data:
-        channel: General
-    - service: mobile_app_pixel_9a
-      data:
-        channel: General
-
-# Martin's devices only - use for Martin-specific notifications
-- name: martin_devices
-  platform: group
-  services:
-    - service: mobile_app_pixel_8_pro
-      data:
-        channel: General
-
-# Lidia's devices only - use for Lidia-specific notifications
-- name: lidia_devices
-  platform: group
-  services:
-    - service: mobile_app_pixel_9a
-      data:
-        channel: General
+# 
+# Mobile app notifications use the NEW entity platform and can ONLY be grouped 
+# via the UI, not YAML. 
+#
+# To create groups:
+# 1. Go to Settings → Devices & Services → Helpers tab
+# 2. Click "+ CREATE HELPER" → Group → Notification group
+# 3. Name it and select mobile app notification entities
+#
+# This will create entities like: notify.all_users
+# Use in automations with: action: notify.all_users
+#
+# Legacy YAML notify groups only work with old-style notify services, 
+# not modern notify entities.
+# ================================================================================

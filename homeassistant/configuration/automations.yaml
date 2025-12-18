@@ -232,14 +232,14 @@
     entity_id: input_boolean.sleep_mode
     state: 'off'
   actions:
-  - action: notify.all_users
+  - action: notify.mobile_app_pixel_8_pro
     data:
       message: Vacuum encountered an error during automated cleaning
       title: Vacuum Error
-      data:
-        priority: high
-        channel: important
-        tag: vacuum_error
+  - action: notify.mobile_app_pixel_9a
+    data:
+      message: Vacuum encountered an error during automated cleaning
+      title: Vacuum Error
   - action: input_boolean.turn_off
     metadata: {}
     data: {}
@@ -300,14 +300,14 @@
           to: 'off'
         timeout: '12:00:00'
         continue_on_timeout: true
-  - action: notify.all_users
+  - action: notify.mobile_app_pixel_8_pro
     data:
       message: Litter-robot waste above 70%
       title: Litter Robot
-      data:
-        priority: high
-        channel: important
-        tag: litter_robot_waste
+  - action: notify.mobile_app_pixel_9a
+    data:
+      message: Litter-robot waste above 70%
+      title: Litter Robot
   mode: single
 
 # ================================================================================
@@ -412,22 +412,22 @@
       - condition: trigger
         id: martin
       sequence:
-      - action: notify.martin_devices
+      - action: notify.mobile_app_pixel_8_pro
         data:
           message: Open your shopping list?
+          title: Shopping list
           data:
             clickAction: /lovelace/shopping-list
             url: /lovelace/shopping-list
-          title: Shopping list
     - conditions:
       - condition: trigger
         id: lidia
       sequence:
-      - action: notify.lidia_devices
+      - action: notify.mobile_app_pixel_9a
         data:
           message: Open your shopping list?
+          title: Shopping list
           data:
             clickAction: /lovelace/shopping-list
             url: /lovelace/shopping-list
-          title: Shopping list
   mode: single
