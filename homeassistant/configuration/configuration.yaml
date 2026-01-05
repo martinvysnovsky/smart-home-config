@@ -13,3 +13,19 @@ input_boolean: !include helpers.yaml
 lovelace: !include dashboards.yaml
 notify: !include notifications.yaml
 group: !include groups.yaml
+
+# Person entities configuration
+# Links user accounts to device trackers for presence detection
+person:
+  - name: Martin Vyšňovský
+    id: martin_vysnovsky
+    user_id: 2452b58fb45044e39f43b383d235430b
+    device_trackers:
+      - device_tracker.pixel_8_pro
+      - device_tracker.martins_ipad
+  
+  - name: Lidia Silanteva
+    id: lidia_silanteva
+    user_id: c0ef80f8962446728f3aebacb9a23532
+    device_trackers:
+      - device_tracker.pixel_9a
