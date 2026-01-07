@@ -15,7 +15,6 @@ Professional smart home setup using [Home Assistant](https://www.home-assistant.
 - ✨ All automations and scenes documented with descriptions
 - 📋 Organized with 80-char section headers
 - 🔄 Uses entity IDs (no fragile device IDs)
-- 🐳 Production-ready Docker Compose setup
 
 ## 🏠 Features
 
@@ -48,19 +47,13 @@ Professional smart home setup using [Home Assistant](https://www.home-assistant.
 - 🐱 **Litter robot cycles** - Pet care automation frequency
 - 🏡 **Kvetoslavov occupancy** - Secondary location tracking
 
-### Production Ready
 
-- ✅ Docker healthcheck (30s monitoring)
-- ✅ Resource limits (2GB RAM, 2 CPUs)
-- ✅ Automatic log rotation (10MB × 3 files)
-- ✅ Watchtower support for auto-updates
 
 ## 📁 Directory Structure
 
 ```
 smart-home-config/
 ├── homeassistant/           # Home Assistant configuration
-│   ├── compose.yaml         # Docker Compose with healthcheck & limits
 │   ├── configuration/       # HA configuration files
 │   │   ├── configuration.yaml   # Main config with includes
 │   │   ├── automations.yaml     # 12 organized automations
@@ -87,14 +80,6 @@ smart-home-config/
 
 ### Home Assistant
 
-Run with Docker Compose:
-```bash
-cd homeassistant
-docker compose up -d
-```
-
-Features healthcheck, resource limits, and automatic log rotation.
-
 **See [homeassistant/configuration/README.md](homeassistant/configuration/README.md)** for detailed setup and configuration information.
 
 ### Kincony (ESPHome)
@@ -111,7 +96,6 @@ esphome run configuration/home.yaml
 
 - **Home Assistant** - Smart home automation platform
 - **ESPHome** - ESP32/ESP8266 firmware for IoT devices
-- **Docker** - Containerized deployment
 - **Kincony KC868** - Industrial automation hardware
 - **Custom Components:**
   - Dahua cameras

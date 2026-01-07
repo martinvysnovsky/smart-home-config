@@ -67,17 +67,7 @@ NOTE: you need to clone the repository inside `/homeassistant` folder.
 
 3. **Install custom components** (if any) by copying them to the appropriate directory within your Home Assistant setup.
 
-4. **Restart Home Assistant** to apply the new configurations:
-
-```bash
-docker restart homeassistant  # If using Docker
-```
-
-### Running locally
-
-```bash
-docker compose up -d
-```
+4. **Restart Home Assistant** to apply the new configurations.
 
 ## Usage
 

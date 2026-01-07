@@ -33,7 +33,6 @@ configuration/
   └─ www/                  # Static web files
 docs/
   └─ ssh.md                # SSH access documentation
-compose.yaml               # Docker Compose configuration
 ```
 
 ### Configuration Files
@@ -77,23 +76,7 @@ NOTE: you need to clone the repository inside `/homeassistant` folder.
 
 3. **Install custom components** (if any) by copying them to the appropriate directory within your Home Assistant setup.
 
-4. **Restart Home Assistant** to apply the new configurations:
-
-```bash
-docker restart homeassistant  # If using Docker
-```
-
-### Running locally with Docker Compose
-
-```bash
-docker compose up -d
-```
-
-The Docker Compose configuration includes:
-- **Healthcheck**: Monitors Home Assistant availability every 30s
-- **Resource limits**: 2GB memory, 2 CPU cores
-- **Log rotation**: Max 10MB per file, 3 files retained
-- **Watchtower support**: Automated container updates
+4. **Restart Home Assistant** to apply the new configurations.
 
 ## Usage
 
