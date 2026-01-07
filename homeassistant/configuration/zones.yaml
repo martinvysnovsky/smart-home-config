@@ -1,0 +1,29 @@
+# ================================================================================
+# Home Assistant Zones Configuration
+# ================================================================================
+# Defines geographic zones for presence detection and automations
+# Note: zone.home is automatically created from homeassistant: coordinates
+
+# ================================================================================
+# Kvetoslavov Home
+# ================================================================================
+# Secondary home location in Kvetoslavov town
+
+- name: Kvetoslavov Home
+  latitude: 48.0523641
+  longitude: 17.3549269
+  radius: 100
+  icon: mdi:home-variant
+  passive: false
+
+# ================================================================================
+# Lidl Store
+# ================================================================================
+# Lidl Galvaniho - Stará Ivanská cesta 1, Bratislava-Ružinov
+
+- name: Lidl
+  latitude: 48.1699781
+  longitude: 17.1750584
+  radius: 75
+  icon: mdi:cart
+  passive: false

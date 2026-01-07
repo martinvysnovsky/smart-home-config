@@ -73,6 +73,7 @@ input_boolean: !include helpers.yaml
 lovelace: !include dashboards.yaml
 notify: !include notifications.yaml
 group: !include groups.yaml
+zone: !include zones.yaml
 
 # Person entities configuration
 # Links user accounts to device trackers for presence detection
