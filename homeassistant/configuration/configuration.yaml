@@ -1,5 +1,65 @@
+# ================================================================================
+# Home Assistant Core Configuration
+# ================================================================================
+
+homeassistant:
+  name: Home
+  latitude: 48.170671
+  longitude: 17.1735994
+  elevation: 131
+  unit_system: metric
+  currency: EUR
+  country: SK
+  time_zone: "Europe/Belgrade"
+
+# ================================================================================
+# Default Integrations
+# ================================================================================
+
 # Loads default set of integrations. Do not remove.
 default_config:
+
+# ================================================================================
+# Recorder Configuration
+# ================================================================================
+
+# Controls database size and performance
+recorder:
+  purge_keep_days: 7
+  commit_interval: 1
+  exclude:
+    domains:
+      - automation
+      - updater
+    entity_globs:
+      - sensor.weather_*
+
+# ================================================================================
+# Logger Configuration
+# ================================================================================
+
+# Controls logging verbosity for debugging
+logger:
+  default: info
+  logs:
+    homeassistant.core: warning
+    homeassistant.components.mqtt: warning
+
+# ================================================================================
+# HTTP Configuration
+# ================================================================================
+
+# Security and network settings
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
+# ================================================================================
+# Frontend Configuration
+# ================================================================================
 
 # Load frontend themes from the themes folder
 frontend:
