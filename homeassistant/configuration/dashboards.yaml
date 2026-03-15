@@ -2,7 +2,7 @@
 # Lovelace Dashboards (YAML Mode)
 # ================================================================================
 
-mode: yaml
+resource_mode: yaml
 resources:
   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620121
     type: module
