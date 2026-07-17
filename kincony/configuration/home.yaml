@@ -360,6 +360,7 @@ binary_sensor:
   #-------------------------------------------------------------------------------
   - platform: gpio
     id: input1
+    name: "Input 1"
     on_press:
       then:
         - switch.toggle: light1
@@ -371,6 +372,7 @@ binary_sensor:
 
   - platform: gpio
     id: "input2"
+    name: "Input 2"
     on_press:
       then:
         - switch.toggle: light2
@@ -382,6 +384,7 @@ binary_sensor:
 
   - platform: gpio
     id: "input3"
+    name: "Input 3"
     on_press:
       then:
         - switch.toggle: light3
@@ -393,6 +396,7 @@ binary_sensor:
 
   - platform: gpio
     id: "input4"
+    name: "Input 4"
     on_press:
       then:
         - switch.toggle: light4
@@ -404,6 +408,7 @@ binary_sensor:
 
   - platform: gpio
     id: "input5"
+    name: "Input 5"
     on_press:
       then:
         - switch.toggle: light5
@@ -415,6 +420,7 @@ binary_sensor:
 
   - platform: gpio
     id: "input6"
+    name: "Input 6"
     on_press:
       then:
         - switch.toggle: light6
@@ -443,6 +449,7 @@ binary_sensor:
 
   - platform: gpio
     id: "input8"
+    name: "Input 8"
     on_press:
       then:
         - switch.toggle: light8
