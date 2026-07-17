@@ -45,6 +45,13 @@ cd smart-home-config/kincony
 esphome run configuration/home.yaml
 ```
 
+To flash a device that is not auto-discovered on the LAN (e.g. remote/NAT),
+target it explicitly. OTA uses port `3232`, which must be reachable:
+
+```bash
+esphome run configuration/home.yaml --device <device-ip-or-host>
+```
+
 ### View logs
 
 ```bash
