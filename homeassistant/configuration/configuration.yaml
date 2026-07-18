@@ -86,9 +86,9 @@ person:
     device_trackers:
       - device_tracker.pixel_8_pro
       - device_tracker.martins_ipad
-  
+
   - name: Lidia Silanteva
     id: lidia_silanteva
-    user_id: c0ef80f8962446728f3aebacb9a23532
+    user_id: fcd98ad1ecbf4815add2c7b09c303988
     device_trackers:
       - device_tracker.pixel_9a
